@@ -1,4 +1,4 @@
-class RBVacancy(BaseModel):
+class RBVacancy():
     def __init__(self, id: int | None = None,
                  name: str | None = None,
                  description: str | None = None,

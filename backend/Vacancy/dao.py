@@ -1,5 +1,5 @@
-from dao.base import BaseDAO
-from Vacancy.models import Vacancy
+from backend.dao.base import BaseDAO
+from backend.Vacancy.models import Vacancy
 
 
 class VacancyDAO(BaseDAO):

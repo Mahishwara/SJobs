@@ -47,7 +47,7 @@ async def update_student(student_id, student: SStudentUpd,) -> dict:
         return {"message": "Ошибка при обновлении данных студента!"}
 
 
-@router.delete("/delete/{student_id}")
+@router.delete("/delete/{student_id}", summary='Удалить студента по ID')
 async def delete_student(request_body: RBStudent = Depends()) -> dict:
     check = await StudentDAO.delete(**request_body.to_dict())
     if check:

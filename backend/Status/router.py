@@ -29,7 +29,7 @@ async def get_status_by_id(status_id: int) -> SStatus | dict:
 async def register_status(status: SStatusAdd) -> dict:
     check = await StatusDAO.add(**status.dict())
     if check:
-        return {"message": "Статус успешно добавлена!", "Статус": status}
+        return {"message": "Статус успешно добавлен!", "Статус": status}
     else:
         return {"message": "Ошибка при добавлении статуса!"}
 
@@ -45,7 +45,7 @@ async def update_status(status_id, status: SStatusUpd,) -> dict:
         return {"message": "Ошибка при обновлении данных статуса!"}
 
 
-@router.delete("/delete/{status_id}")
+@router.delete("/delete/{status_id}", summary='Удалить статус по ID')
 async def delete_status(request_body: RBStatus = Depends()) -> dict:
     check = await StatusDAO.delete(**request_body.to_dict())
     if check:

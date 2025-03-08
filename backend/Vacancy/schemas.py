@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 import time
 
 
@@ -15,7 +15,7 @@ class SVacancy(BaseModel):
     salary: str = Field(..., description='Зарплата, можно указать: По соглосованию')
 
 
-    @field_validator(["publication_date", 'close_date'])
+    @field_validator("publication_date", "close_date")
     @classmethod
     def validate_date(cls, values: str) -> str:
         if time.strptime(values, '%d.%m.%Y'):
