@@ -1,17 +1,18 @@
-from sqlalchemy import String
+from sqlalchemy import String, Integer
 from sqlalchemy.orm import Mapped, mapped_column
+from backend.database import Base
 
 
-class Application(Base):
+class Vacancy(Base):
     __tablename__ = 'Vacancies'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String, nullable=False)
-    description: Mapped[str] = mapped_column(String, nullable=False)
+    name: Mapped[str] = mapped_column(String(50), nullable=False)
+    description: Mapped[str] = mapped_column(String(100), nullable=False)
     publication_date: Mapped[str] = mapped_column(String(60), nullable=True)
     close_date: Mapped[str] = mapped_column(String(60), nullable=True)
-    needed_skill: Mapped[int] = mapped_column(ForeignKey("Skills.id"), nullable=False)
-    salary: Mapped[str] = mapped_column(String, nullable=False)
+    needed_skill: Mapped[int] = mapped_column(Integer, nullable=False)
+    salary: Mapped[str] = mapped_column(String(100), nullable=False)
     extend_existing = True
 
     def __str__(self):

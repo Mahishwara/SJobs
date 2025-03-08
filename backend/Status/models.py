@@ -1,7 +1,6 @@
-from sqlalchemy import text, Column, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from backend.database import Base, str_uniq, int_pk, str_null_true
+from sqlalchemy import String, Integer
+from sqlalchemy.orm import Mapped, mapped_column
+from backend.database import Base
 
 
 class Status(Base):

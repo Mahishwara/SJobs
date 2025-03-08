@@ -1,7 +1,7 @@
-from sqlalchemy import text, Column, String
+from sqlalchemy import text, Column, String, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from backend.database import Base, str_uniq, int_pk, str_null_true
+from backend.database import Base
 
 
 class Skill(Base):

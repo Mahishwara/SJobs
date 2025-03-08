@@ -4,7 +4,7 @@ from backend.database import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'Users'
 
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

@@ -1,17 +1,16 @@
-from sqlalchemy import text, Column, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from backend.database import Base, str_uniq, int_pk, str_null_true
+from sqlalchemy import String, Integer
+from sqlalchemy.orm import Mapped, mapped_column
+from backend.database import Base
 
 
 class Student(Base):
     __tablename__ = 'Students'
 
-    id: Mapped[int_pk] = Column(String(50))
-    firstname: Mapped[str_uniq]
-    lastname: Mapped[str_uniq]
-    description: Mapped[str_null_true]
-    skills: Mapped[list["Skill"]] = relationship("Skills", back_populates="category")
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    firstname: Mapped[str] = mapped_column(String(50), nullable=False)
+    lastname: Mapped[str] = mapped_column(String(50), nullable=False)
+    description: Mapped[str] = mapped_column(String(100), nullable=True)
+    skill: Mapped[int] = mapped_column(Integer, nullable=False)
     extend_existing = True
 
     def __str__(self):
@@ -25,4 +24,5 @@ class Student(Base):
             "id": self.id,
             'firstname': self.firstname,
             'lastname': self.lastname,
-            "description": self.description}
+            "description": self.description,
+            "skill": self.skill,}

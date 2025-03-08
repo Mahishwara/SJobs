@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response, Depends
-from  backend.exceptions import UserAlreadyExistsException, IncorrectEmailOrPasswordException
+from backend.exceptions import UserAlreadyExistsException, IncorrectEmailOrPasswordException
 from backend.users.auth import get_password_hash, authenticate_user, create_access_token
 from backend.users.dao import UsersDAO
 from backend.users.dependencies import get_current_user, get_current_admin_user

@@ -1,5 +1,6 @@
-from sqlalchemy import String
+from sqlalchemy import String, Integer
 from sqlalchemy.orm import Mapped, mapped_column
+from backend.database import Base
 
 
 class Employer(Base):
