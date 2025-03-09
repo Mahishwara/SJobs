@@ -8,11 +8,12 @@ class Organisation(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    organization: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[str] = mapped_column(String(60), nullable=True)
-    phone: Mapped[str] = mapped_column(String(20), nullable=True)
     description: Mapped[str] = mapped_column(String(100), nullable=True)
+    adress: Mapped[str] = mapped_column(String(100), nullable=True)
+    phone: Mapped[str] = mapped_column(String(20), nullable=True)
+    email: Mapped[str] = mapped_column(String(50), nullable=True)
     extend_existing = True
+
 
     def __str__(self):
         return (f"{self.__class__.__name__}(id={self.id},"

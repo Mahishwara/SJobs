@@ -8,7 +8,7 @@ from backend.users.models import User
 
 router = APIRouter(
     prefix='/statuses',
-    tags=['Пути работы с классом Статус']
+    tags=['Статус']
 )
 
 

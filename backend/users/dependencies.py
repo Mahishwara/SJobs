@@ -37,7 +37,7 @@ async def get_current_user(token: str = Depends(get_token)):
     return user
 
 
-async def get_current_admin_user(current_user: User = Depends(get_current_user)):
+async def get_current_admin_user(current_user: User = Depends()):
     if current_user.is_admin:
         return current_user
     raise ForbiddenException

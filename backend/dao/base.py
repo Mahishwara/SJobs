@@ -24,6 +24,15 @@ class BaseDAO:
             result = await session.execute(query)
             return result.scalar_one_or_none()
 
+
+    @classmethod
+    async def find_objects(cls, description):
+        """Возвращает объект модели."""
+        async with async_session_maker() as session:
+            query = select(cls.model).filter(cls.model.description.ilike(f'%{description}%'))
+            result = await session.execute(query)
+            return result.scalars().all()
+
     @classmethod
     async def add(cls, **values):
         async with async_session_maker() as session:
@@ -77,6 +86,5 @@ class BaseDAO:
                         await session.execute(
                             sqlalchemy_delete(cls.model).filter_by(**filter_by)
                         )
-
                         await session.commit()
                         return object_to_delete.id

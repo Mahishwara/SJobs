@@ -8,7 +8,7 @@ from backend.users.models import User
 
 router = APIRouter(
     prefix='/students',
-    tags=['Пути работы с классом Студент']
+    tags=['Студент']
 )
 
 

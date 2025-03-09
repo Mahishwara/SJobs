@@ -1,15 +1,17 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class SOrganisation(BaseModel):
     class Config:
         from_attributes = True
 
-    name: str = Field(..., min_length=3, max_length=50, description="Название работодателя, от 3 до 50 символов")
-    organization: str = Field(..., min_length=3, max_length=50, description='Наименование организации, от 3 до 50 символов')
-    email: str = Field(..., description='Личная электронная почта')
-    phone: str = Field(..., description="Личный номер телефона в международном формате, начинающийся с '+'")
-    description: str = Field(..., description='Дополнительная информация')
+    id: int
+    name: str = Field(..., min_length=3, max_length=50, description='Наименование организации, от 3 до 50 символов')
+    description: str = Field(..., max_length=100, description='Дополнительная информация')
+    adress: str = Field(..., max_length=100, description='Адресс осноного офиса')
+    email: str = Field(..., max_length=50, description='Электронная почта горячей линии')
+    phone: str = Field(..., max_length=20, description="Номер телефона горячей линии в международном формате, начинающийся с '+'")
+
 
 
     @field_validator("phone")
@@ -20,18 +22,18 @@ class SOrganisation(BaseModel):
         return values
 
 class SOrganisationAdd(BaseModel):
-    name: str = Field(..., min_length=3, max_length=50, description="Название работодателя, от 3 до 50 символов")
-    organization: str = Field(..., min_length=3, max_length=50,
-                              description='Наименование организации, от 3 до 50 символов')
-    email: str = Field(..., description='Личная электронная почта')
-    phone: str = Field(..., description="Личный номер телефона в международном формате, начинающийся с '+'")
-    description: str = Field(..., description='Дополнительная информация')
+    name: str = Field(..., min_length=3, max_length=50, description='Наименование организации, от 3 до 50 символов')
+    description: str = Field(..., max_length=100, description='Дополнительная информация')
+    adress: str = Field(..., max_length=100, description='Адресс осноного офиса')
+    email: str = Field(..., max_length=50, description='Электронная почта горячей линии')
+    phone: str = Field(..., max_length=20,
+                       description="Номер телефона горячей линии в международном формате, начинающийся с '+'")
 
 
 class SOrganisationUpd(BaseModel):
-    name: str = Field(..., min_length=3, max_length=50, description="Новое название работодателя, от 3 до 50 символов")
-    organization: str = Field(..., min_length=3, max_length=50,
-                              description='Новое наименование организации, от 3 до 50 символов')
-    email: str = Field(..., description='Новая личная электронная почта')
-    phone: str = Field(..., description="Новый личный номер телефона в международном формате, начинающийся с '+'")
-    description: str = Field(..., description='Новая дополнительная информация')
+    name: str = Field(..., min_length=3, max_length=50, description='Новое наименование организации, от 3 до 50 символов')
+    description: str = Field(..., max_length=100, description='Новая дополнительная информация')
+    adress: str = Field(..., max_length=100, description='Новый адресс осноного офиса')
+    email: str = Field(..., max_length=50, description='Новая электронная почта горячей линии')
+    phone: str = Field(..., max_length=20,
+                       description="Новый номер телефона горячей линии в международном формате, начинающийся с '+'")

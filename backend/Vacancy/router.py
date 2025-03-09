@@ -8,7 +8,7 @@ from backend.users.models import User
 
 router = APIRouter(
     prefix='/vacancies',
-    tags=['Пути работы с классом вакансии']
+    tags=['Вакансии']
 )
 
 
@@ -16,6 +16,10 @@ router = APIRouter(
 async def get_all_vacancies(request_body: RBVacancy = Depends()) -> list[SVacancy]:
     return await VacancyDAO.get_all_objects(**request_body.to_dict())
 
+
+@router.get("/find/", summary="Получить все вакансии")
+async def find_vacancies(description) -> list[SVacancy]:
+    return await VacancyDAO.find_objects(description)
 
 @router.get("/{}", summary="Получить одину вакансию по ID")
 async def get_vacancy_by_id(vacancy_id: int) -> SVacancy | dict:
@@ -37,17 +41,20 @@ async def register_vacancy(vacancy: SVacancyAdd) -> dict:
 @router.put("/update/{vacancy_id}", summary='Изменить вакансию по ID')
 async def update_vacancy(vacancy_id, vacancy: SVacancyUpd) -> dict:
     check = await VacancyDAO.update(filter_by={'id': vacancy_id},
-                                   name=vacancy.name, description=vacancy.description)
+                                   name=vacancy.name, description=vacancy.description,
+                                    close_date=vacancy.close_date,
+                                    needed_skill=vacancy.needed_skill,
+                                    salary=vacancy.salary)
     if check:
-        return {"message": "Навык успешно обновлен!", "vacancy": vacancy}
+        return {"message": "Вакансия успешно обновлена!", "vacancy": vacancy}
     else:
-        return {"message": "Ошибка при обновлении навыка!"}
+        return {"message": "Ошибка при обновлении вакансии!"}
 
 
 @router.delete("/delete/{vacancy_id}", summary='Удалить вакансию по ID')
 async def delete_vacancy(vacancy_id) -> dict:
     check = await VacancyDAO.delete(id=vacancy_id)
     if check:
-        return {"message": f"Навык успешно удален!"}
+        return {"message": f"Вакансия успешно удалена!"}
     else:
-        return {"message": "Ошибка при удалении навыка!"}
+        return {"message": "Ошибка при удалении вакансии!"}

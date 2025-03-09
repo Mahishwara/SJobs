@@ -15,13 +15,6 @@ class SVacancy(BaseModel):
     salary: str = Field(..., description='Зарплата, можно указать: По соглосованию')
 
 
-    @field_validator("publication_date", "close_date")
-    @classmethod
-    def validate_date(cls, values: str) -> str:
-        if time.strptime(values, '%d.%m.%Y'):
-            return valid_date
-        raise ValueError('Дата должны быть в формате ДД.ММ.ГГГГ')
-
 
 class SVacancyAdd(BaseModel):
     name: str = Field(..., min_length=1, max_length=100, description='Наименование вакансии')
@@ -31,6 +24,12 @@ class SVacancyAdd(BaseModel):
     needed_skill: int = Field(..., description='Ссылка на нужный навык')
     salary: str = Field(..., description='Зарплата, можно указать: По соглосованию')
 
+    @field_validator("publication_date", "close_date")
+    @classmethod
+    def validate_date(cls, values: str) -> str:
+        if time.strptime(values, '%d.%m.%Y'):
+            return values
+        raise ValueError('Даты должны быть в формате ДД.ММ.ГГГГ')
 
 class SVacancyUpd(BaseModel):
     name: str = Field(..., min_length=1, max_length=100, description='Новое наименование вакансии')

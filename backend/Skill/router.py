@@ -9,7 +9,7 @@ from backend.users.models import User
 
 router = APIRouter(
     prefix='/skills',
-    tags=['Пути работы с классом Навык']
+    tags=['Навык']
 )
 
 
@@ -36,7 +36,7 @@ async def register_skill(skill: SSkillAdd) -> dict:
 
 
 @router.put("/update/{skill_id}", summary='Изменить навык')
-async def update_category(skill_id, skill: SSkillUpd) -> dict:
+async def update_skill(skill_id, skill: SSkillUpd) -> dict:
     check = await SkillDAO.update(filter_by={'id': skill_id},
                                    name=skill.name, description=skill.description)
     if check:
@@ -46,7 +46,7 @@ async def update_category(skill_id, skill: SSkillUpd) -> dict:
 
 
 @router.delete("/delete/{skill_id}", summary='Удалить навык по ID')
-async def delete_category(skill_id) -> dict:
+async def delete_skill(skill_id) -> dict:
     check = await SkillDAO.delete(id=skill_id)
     if check:
         return {"message": f"Навык успешно удален!"}
