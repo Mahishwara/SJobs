@@ -26,8 +26,10 @@ async def get_student_by_id(student_id: int) -> SStudent | dict:
 
 
 @router.post("/add/", summary='Добавить нового студента')
-async def register_student(student: SStudentAdd) -> dict:
-    check = await StudentDAO.add(**student.dict())
+async def register_student(student: SStudentAdd, user_data: User = Depends(get_current_user)) -> dict:
+    student = student.dict()
+    student['user_id'] = user_data.id
+    check = await StudentDAO.add(**student)
     if check:
         return {"message": "Студент успешно добавлена!", "Студент": student}
     else:
@@ -35,12 +37,15 @@ async def register_student(student: SStudentAdd) -> dict:
 
 
 @router.put("/update/{student_id}", summary='Изменить студента')
-async def update_student(student_id, student: SStudentUpd,) -> dict:
+async def update_student(student_id, student: SStudentUpd) -> dict:
     check = await StudentDAO.update(filter_by={'id': student_id},
                                     lastname=student.lastname,
                                     firstname=student.firstname,
-                                    skill=student.skill,
-                                    description=student.description)
+                                    post=student.post,
+                                    level_skill=student.level_skill,
+                                    speciality=student.speciality,
+                                    course=student.course,
+                                    ability=student.ability)
     if check:
         return {"message": f"Данные студента успешно обновлены", "student": student}
     else:

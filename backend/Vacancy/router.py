@@ -42,8 +42,7 @@ async def register_vacancy(vacancy: SVacancyAdd) -> dict:
 async def update_vacancy(vacancy_id, vacancy: SVacancyUpd) -> dict:
     check = await VacancyDAO.update(filter_by={'id': vacancy_id},
                                    name=vacancy.name, description=vacancy.description,
-                                    close_date=vacancy.close_date,
-                                    needed_skill=vacancy.needed_skill,
+                                    level_skill=vacancy.level_skill,
                                     salary=vacancy.salary)
     if check:
         return {"message": "Вакансия успешно обновлена!", "vacancy": vacancy}

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, field_validator
-from datetime import date
+import datetime
 
 
 class SApplication(BaseModel):
@@ -9,7 +9,7 @@ class SApplication(BaseModel):
     id: int
     id_student: int = Field(..., description='Ссылка на студента')
     id_vacancy: int = Field(..., description='Ссылка на вакансию')
-    date: date = Field(..., description='Дата подачи заявки, формата ДД.ММ.ГГГГ')
+    date: datetime.date = Field(..., description='Дата подачи заявки, формата ДД.ММ.ГГГГ')
     id_status: int = Field(..., description='Ссылка на статус')
 
 
@@ -24,10 +24,10 @@ class SApplicationAdd(BaseModel):
 
     @field_validator("date")
     @classmethod
-    def validate_date(cls, values: str) -> str:
-        valid_date = datetime.strptime(values, "%Y-%m-%d").date()
+    def validate_date(cls, values: str) -> datetime.date:
+        valid_date = datetime.datetime.strptime(values, "%d.%m.%Y").date()
         if valid_date:
-            return values
+            return valid_date
         raise ValueError('Дата должны быть в формате ДД.ММ.ГГГГ')
 
 

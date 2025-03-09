@@ -5,15 +5,14 @@ from backend.database import Base
 
 
 class Skill(Base):
-    __tablename__ = 'skills'
+    __tablename__ = 'level_skills'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[int] = mapped_column(String(50), nullable=False)
-    description: Mapped[str] = mapped_column(String(100), nullable=True)
+    level: Mapped[int] = mapped_column(String(50), nullable=False)
     extend_existing = True
 
     def __str__(self):
-        return f"{self.__class__.__name__}(id={self.id}, name={self.name!r}, description={self.description!r})"
+        return f"{self.__class__.__name__}(id={self.id}, level={self.level!r})"
 
     def __repr__(self):
         return str(self)
@@ -21,5 +20,4 @@ class Skill(Base):
     def to_dict(self):
         return {
             "id": self.id,
-            'name': self.name,
-            "description": self.description}
+            "level": self.level,}

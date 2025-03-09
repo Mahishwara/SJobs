@@ -9,20 +9,20 @@ from backend.users.models import User
 
 router = APIRouter(
     prefix='/skills',
-    tags=['Навык']
+    tags=['Уровень навыков']
 )
 
 
-@router.get("/", summary="Получить все навыки")
+@router.get("/", summary="Получить все уровни навыков")
 async def get_all_skills(request_body: RBSkill = Depends()) -> list[SSkill]:
     return await SkillDAO.get_all_objects(**request_body.to_dict())
 
 
-@router.get("/{}", summary="Получить один навык по ID")
+@router.get("/{}", summary="Получить один уровень по ID")
 async def get_skill_by_id(skill_id: int) -> SSkill | dict:
     res = await SkillDAO.get_object(id=skill_id)
     if res is None:
-        return {'message': f'Навык с данным ID не найдена!'}
+        return {'message': f'Уровень с данным ID не найдена!'}
     return res
 
 
@@ -30,25 +30,25 @@ async def get_skill_by_id(skill_id: int) -> SSkill | dict:
 async def register_skill(skill: SSkillAdd) -> dict:
     check = await SkillDAO.add(**skill.dict())
     if check:
-        return {"message": "Навык успешно добавлен!", "skill": skill}
+        return {"message": "Уровень успешно добавлен!", "skill": skill}
     else:
-        return {"message": "Ошибка при добавлении навыка!"}
+        return {"message": "Ошибка при добавлении уровня!"}
 
 
-@router.put("/update/{skill_id}", summary='Изменить навык')
+@router.put("/update/{skill_id}", summary='Изменить уровень')
 async def update_skill(skill_id, skill: SSkillUpd) -> dict:
     check = await SkillDAO.update(filter_by={'id': skill_id},
-                                   name=skill.name, description=skill.description)
+                                   level=skill.level)
     if check:
-        return {"message": "Навык успешно обновлен!", "skill": skill}
+        return {"message": "Уровень успешно обновлен!", "skill": skill}
     else:
-        return {"message": "Ошибка при обновлении навыка!"}
+        return {"message": "Ошибка при обновлении уровеня!"}
 
 
-@router.delete("/delete/{skill_id}", summary='Удалить навык по ID')
+@router.delete("/delete/{skill_id}", summary='Удалить уровень по ID')
 async def delete_skill(skill_id) -> dict:
     check = await SkillDAO.delete(id=skill_id)
     if check:
-        return {"message": f"Навык успешно удален!"}
+        return {"message": f"Уровень успешно удален!"}
     else:
-        return {"message": "Ошибка при удалении навыка!"}
+        return {"message": "Ошибка при удалении уровня!"}
