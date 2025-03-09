@@ -4,7 +4,7 @@ from backend.database import Base
 
 
 class Message(Base):
-    __tablename__ = 'Messages'
+    __tablename__ = 'messages'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     id_to: Mapped[int] = mapped_column(Integer, nullable=False)

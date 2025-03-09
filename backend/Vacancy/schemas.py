@@ -13,6 +13,7 @@ class SVacancy(BaseModel):
     close_date: str = Field(..., description='Дата закрытия в формате ДД.ММ.ГГГГ')
     needed_skill: int = Field(..., description='Ссылка на нужный навык')
     salary: str = Field(..., description='Зарплата, можно указать: По соглосованию')
+    id_employer: int = Field(..., description='Идентификатор на работаделя')
 
 
 
@@ -23,6 +24,7 @@ class SVacancyAdd(BaseModel):
     close_date: str = Field(..., description='Дата закрытия в формате ДД.ММ.ГГГГ')
     needed_skill: int = Field(..., description='Ссылка на нужный навык')
     salary: str = Field(..., description='Зарплата, можно указать: По соглосованию')
+    id_employer: int = Field(..., description='Идентификатор на работаделя')
 
     @field_validator("publication_date", "close_date")
     @classmethod
@@ -37,3 +39,4 @@ class SVacancyUpd(BaseModel):
     close_date: str = Field(..., description='Новая дата закрытия в формате ДД.ММ.ГГГГ')
     needed_skill: int = Field(..., description='Новая ссылка на нужный навык')
     salary: str = Field(..., description='Новая зарплата, можно указать: По соглосованию')
+    id_employer: int = Field(..., description='Идентификатор на работаделя')

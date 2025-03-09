@@ -5,7 +5,7 @@ from backend.database import Base
 
 
 class Skill(Base):
-    __tablename__ = 'Skills'
+    __tablename__ = 'skills'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[int] = mapped_column(String(50), nullable=False)

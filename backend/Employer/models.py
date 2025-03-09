@@ -1,14 +1,14 @@
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from backend.database import Base
 
 
 class Employer(Base):
-    __tablename__ = 'Employers'
+    __tablename__ = 'employers'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    organization: Mapped[str] = mapped_column(String(100), nullable=False)
+    organization: Mapped[int] = mapped_column(ForeignKey('organizations.id'), nullable=False)
     email: Mapped[str] = mapped_column(String(60), nullable=True)
     phone: Mapped[str] = mapped_column(String(20), nullable=True)
     description: Mapped[str] = mapped_column(String(100), nullable=True)

@@ -1,16 +1,17 @@
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Integer, ForeignKey, DATE
 from sqlalchemy.orm import Mapped, mapped_column
 from backend.database import Base
+from datetime import date
 
 
 class Application(Base):
-    __tablename__ = 'Applications'
+    __tablename__ = 'applications'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    id_student: Mapped[int] = mapped_column(Integer, nullable=False)
-    id_vacancy: Mapped[int] = mapped_column(Integer, nullable=False)
-    date: Mapped[str] = mapped_column(String(60), nullable=True)
-    status: Mapped[int] = mapped_column(Integer, nullable=False)
+    id_student: Mapped[int] = mapped_column(ForeignKey('students.id'), nullable=False)
+    id_vacancy: Mapped[int] = mapped_column(ForeignKey('vacancies.id'), nullable=False)
+    date: Mapped[date] = mapped_column(DATE, nullable=True)
+    id_status: Mapped[int] = mapped_column(ForeignKey('statuses.id'), nullable=False)
     extend_existing = True
 
     def __str__(self):

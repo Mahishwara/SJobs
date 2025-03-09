@@ -4,7 +4,7 @@ from backend.database import Base
 
 
 class Feedback(Base):
-    __tablename__ = 'Feedbacks'
+    __tablename__ = 'feedbacks'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     id_student: Mapped[int] = mapped_column(Integer, nullable=False)

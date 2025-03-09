@@ -1,10 +1,13 @@
 from sqlalchemy import String, Integer
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from backend.Interview.models import Interview
 from backend.database import Base
+import backend
 
 
 class Student(Base):
-    __tablename__ = 'Students'
+    __tablename__ = 'students'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     firstname: Mapped[str] = mapped_column(String(50), nullable=False)

@@ -8,7 +8,7 @@ class SStudent(BaseModel):
     id: int
     firstname: str = Field(..., min_length=3, max_length=25, description="Имя, от 3 до 25 символов")
     lastname: str = Field(..., min_length=3, max_length=35, description="Фамилия, от 3 до 35 символов")
-    skill: str = Field(..., description="Укажите навык из предложенных")
+    skill: int = Field(..., description="Укажите навык из предложенных")
     description: str = Field(..., description="Дополнительная информация")
 
 

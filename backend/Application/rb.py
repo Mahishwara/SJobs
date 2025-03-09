@@ -1,4 +1,4 @@
-class RBApplication(BaseModel):
+class RBApplication():
     def __init__(self, id: int | None = None,
                  id_student: int | None = None,
                  id_vacancy: int | None = None,

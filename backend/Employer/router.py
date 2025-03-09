@@ -28,7 +28,7 @@ async def get_employer_by_id(employer_id: int) -> SEmployer | dict:
 
 @router.post("/add/", summary='Добавить нового работодателя')
 async def register_employer(employer: SEmployerAdd) -> dict:
-    check = await employerDAO.add(**employer.dict())
+    check = await EmployerDAO.add(**employer.dict())
     if check:
         return {"message": "Работодатель успешно добавлен!", "employer": employer}
     else:

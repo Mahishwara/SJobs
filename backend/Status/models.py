@@ -1,10 +1,12 @@
 from sqlalchemy import String, Integer
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from backend.Application.models import Application
 from backend.database import Base
 
 
 class Status(Base):
-    __tablename__ = 'Statuses'
+    __tablename__ = 'statuses'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[int] = mapped_column(String(50), nullable=False)

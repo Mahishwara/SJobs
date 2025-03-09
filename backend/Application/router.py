@@ -27,8 +27,8 @@ async def get_application_by_id(application_id: int) -> SApplication | dict:
 
 
 @router.post("/add/", summary='Добавить новую заявку')
-async def register_application(application: SapplicationAdd) -> dict:
-    check = await applicationDAO.add(**application.dict())
+async def register_application(application: SApplicationAdd) -> dict:
+    check = await ApplicationDAO.add(**application.dict())
     if check:
         return {"message": "Заявка успешно добавлена!", "application": application}
     else:
@@ -36,7 +36,7 @@ async def register_application(application: SapplicationAdd) -> dict:
 
 
 @router.put("/update/{application_id}", summary='Изменить статус заявку по ID')
-async def update_application_status(application_id, application: SapplicationUpd) -> dict:
+async def update_application_status(application_id, application: SApplicationUpd) -> dict:
     check = await ApplicationDAO.update(filter_by={'id': application_id},
                                    status=application.status)
     if check:
