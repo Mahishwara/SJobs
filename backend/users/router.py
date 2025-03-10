@@ -44,3 +44,13 @@ async def get_me(user_data: User = Depends(get_current_user)):
 @router.get("/all_users/")
 async def get_all_users():
     return await UsersDAO.get_all_objects()
+
+
+@router.get("/me/update")
+async def update_user(new_data, user_id):
+    if new_data['student_id'] is not None:
+        check = await UsersDAO.update(filter_by={'id': user_id},
+                                        student_id=new_data['student_id'])
+    if new_data['employer_id'] is not None:
+        check = await UsersDAO.update(filter_by={'id': user_id},
+                                        student_id=new_data['employer_id'])

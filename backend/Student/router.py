@@ -3,8 +3,10 @@ from fastapi import APIRouter, Depends
 from backend.Student.dao import StudentDAO
 from backend.Student.rb import RBStudent
 from backend.Student.schemas import SStudent, SStudentAdd, SStudentUpd
-from backend.users.dependencies import get_current_admin_user
+from backend.users.router import update_user
+from backend.users.dependencies import get_current_user
 from backend.users.models import User
+from backend.users.router import update_user
 
 router = APIRouter(
     prefix='/students',
@@ -31,7 +33,10 @@ async def register_student(student: SStudentAdd, user_data: User = Depends(get_c
     student['user_id'] = user_data.id
     check = await StudentDAO.add(**student)
     if check:
+        await update_user(new_data={'student_id': check,
+                              'employer_id': None}, user_id=user_data.id)
         return {"message": "Студент успешно добавлена!", "Студент": student}
+
     else:
         return {"message": "Ошибка при добавлении категории!"}
 
