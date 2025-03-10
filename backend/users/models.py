@@ -13,7 +13,8 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(50), nullable=False)
     password: Mapped[str] = mapped_column(String(100), nullable=False)
-    role: Mapped[int] = mapped_column(Integer, default=False)
+    student_id: Mapped[int] = mapped_column(Integer, nullable=True)
+    employer_id: Mapped[int] = mapped_column(Integer, nullable=True)
     extend_existing = True
 
     def __repr__(self):
