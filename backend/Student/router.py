@@ -35,7 +35,7 @@ async def register_student(student: SStudentAdd, user_data: User = Depends(get_c
     if check:
         await update_user(new_data={'student_id': check,
                               'employer_id': None}, user_id=user_data.id)
-        return {"message": "Студент успешно добавлена!", "Студент": student}
+        return {"message": "Студент успешно добавлена!", "student": student}
 
     else:
         return {"message": "Ошибка при добавлении категории!"}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<form id="data-student">
+    <p class="text-center fs-1">Заполните резюме студента</p>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">ФИО</span>
+        <input type="text" class="form-control" placeholder="Иванов Иван Иваныч" aria-describedby="basic-addon1" name="fio">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">Роль в проектах</span>
+        <input type="text" class="form-control" placeholder="Python-разработчик" aria-label="Python-разработчик" aria-describedby="basic-addon2" name="post">
+    </div>
+
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Уровень навыков</label>
+        <select class="form-select" id="inputGroupSelect01" name="level_skill">
+            <option selected>Choose...</option>
+            <option value="1">Junior</option>
+            <option value="2">Middle</option>
+            <option value="3">Senior</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">Специальность</span>
+        <input type="text" class="form-control" placeholder="Программная инженерия" aria-label="Python-разработчик" aria-describedby="basic-addon2" name="speciality">
+    </div>
+
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect02">Курс обучения</label>
+        <select class="form-select" id="inputGroupSelect02" name="course">
+            <option selected>Choose...</option>
+            <option value="1">1 курс</option>
+            <option value="2">2 курс</option>
+            <option value="3">3 курс</option>
+            <option value="4">4 курс</option>
+            <option value="5">Магистратура 1 курс</option>
+            <option value="6">Магистратура 2 курс</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-text">Любая информация о ваших навыках и умения</span>
+      <textarea class="form-control" aria-label="With textarea" name="ability"></textarea>
+    </div>
+    <div class="d-grid gap-1 col-12 mx-auto" style="margin-top: 3px">
+            <button class="btn btn-primary" type="submit" onclick="createStudent(event)">Создать</button>
+        </div>
+</form>
+{% endblock %}

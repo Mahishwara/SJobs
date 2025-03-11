@@ -6,8 +6,7 @@ class SStudent(BaseModel):
         from_attributes = True
 
     id: int
-    firstname: str = Field(..., min_length=3, max_length=50, description="Имя, от 3 до 50 символов")
-    lastname: str = Field(..., min_length=3, max_length=50, description="Фамилия, от 3 до 50 символов")
+    fio: str = Field(..., min_length=3, max_length=100, description='ФИО')
     post: str = Field(..., min_length=3, max_length=50, description='Должность, от 3 до 50 символов')
     level_skill: int = Field(..., description='Уровень владения')
     speciality: str = Field(..., min_length=3, max_length=200, description='Специальность, от 3 до 200 символов')
@@ -16,8 +15,7 @@ class SStudent(BaseModel):
 
 
 class SStudentAdd(BaseModel):
-    firstname: str = Field(..., min_length=3, max_length=50, description="Имя, от 3 до 50 символов")
-    lastname: str = Field(..., min_length=3, max_length=50, description="Фамилия, от 3 до 50 символов")
+    fio: str = Field(..., min_length=3, max_length=100, description='ФИО')
     post: str = Field(..., min_length=3, max_length=50, description='Должность, от 3 до 50 символов')
     level_skill: int = Field(..., description='Уровень владения')
     speciality: str = Field(..., min_length=3, max_length=200, description='Специальность, от 3 до 200 символов')
@@ -34,8 +32,7 @@ class SStudentAdd(BaseModel):
 
 
 class SStudentUpd(BaseModel):
-    firstname: str = Field(..., min_length=3, max_length=50, description="Имя, от 3 до 50 символов")
-    lastname: str = Field(..., min_length=3, max_length=50, description="Фамилия, от 3 до 50 символов")
+    fio: str = Field(..., min_length=3, max_length=100, description='ФИО')
     post: str = Field(..., min_length=3, max_length=50, description='Должность, от 3 до 50 символов')
     level_skill: int = Field(..., description='Уровень владения')
     speciality: str = Field(..., min_length=3, max_length=200, description='Специальность, от 3 до 200 символов')
@@ -45,7 +42,7 @@ class SStudentUpd(BaseModel):
 
     @field_validator("course")
     @classmethod
-    def validate_salary(cls, values: int) -> int:
+    def validate_course(cls, values: int) -> int:
         if values > 0 and values < 7:
             return values
         raise ValueError('Курс должен быть в диапазоне от 1 до 6')
