@@ -22,7 +22,8 @@
               Студенту
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Поиск вакансий</a></li>
+              <li><a class="dropdown-item" href="/find_vacancies">Поиск вакансий</a></li>
+              <li><a class="dropdown-item" href="/my_applications">Мои заявки</a></li>
               <li><a class="dropdown-item" href="#">Календарь собеседований</a></li>
               <li><a class="dropdown-item" href="#">Отзывы обо мне</a></li>
               <li><a class="dropdown-item" href="#">Мои отзывы</a></li>
@@ -33,7 +34,7 @@
               Работодателю
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Управление вакансиями</a></li>
+              <li><a class="dropdown-item" href="/vacancies/">Управление вакансиями</a></li>
               <li><a class="dropdown-item" href="#">Отзывы по вакансиям</a></li>
               <li><a class="dropdown-item" href="#">Отзывы обо мне</a></li>
               <li><a class="dropdown-item" href="#">Мои отзывы</a></li>
@@ -44,9 +45,9 @@
               Личный кабинет
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/profile">Профиль</a></li>
+              <li><a class="dropdown-item" onclick="profileFunction(event)">Профиль</a></li>
               <li><a class="dropdown-item" href="#">Сообщения</a></li>
-              <li><a class="dropdown-item" href="#">Выйти из аккаунта</a></li>
+              <li><a class="dropdown-item" onclick="logoutFunction(event)">Выйти из аккаунта</a></li>
             </ul>
           </li>
       </ul>

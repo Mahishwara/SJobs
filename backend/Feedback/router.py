@@ -8,7 +8,7 @@ from backend.users.models import User
 
 
 router = APIRouter(
-    prefix='/feedbacks',
+    prefix='/api/feedbacks',
     tags=['Отзыв']
 )
 

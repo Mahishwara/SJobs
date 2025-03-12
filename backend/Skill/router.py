@@ -8,7 +8,7 @@ from backend.users.models import User
 
 
 router = APIRouter(
-    prefix='/skills',
+    prefix='/api/skills',
     tags=['Уровень навыков']
 )
 
@@ -18,7 +18,7 @@ async def get_all_skills(request_body: RBSkill = Depends()) -> list[SSkill]:
     return await SkillDAO.get_all_objects(**request_body.to_dict())
 
 
-@router.get("/{}", summary="Получить один уровень по ID")
+@router.get("/{skill_id}", summary="Получить один уровень по ID")
 async def get_skill_by_id(skill_id: int) -> SSkill | dict:
     res = await SkillDAO.get_object(id=skill_id)
     if res is None:

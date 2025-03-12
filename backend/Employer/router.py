@@ -3,12 +3,13 @@ from fastapi import APIRouter, Depends
 from backend.Employer.dao import EmployerDAO
 from backend.Employer.rb import RBEmployer
 from backend.Employer.schemas import SEmployer, SEmployerAdd, SEmployerUpd
-from backend.users.dependencies import get_current_admin_user
+from backend.users.dependencies import get_current_user
 from backend.users.models import User
+from backend.users.router import update_user
 
 
 router = APIRouter(
-    prefix='/employers',
+    prefix='/api/employers',
     tags=['Работодатель']
 )
 
@@ -27,9 +28,11 @@ async def get_employer_by_id(employer_id: int) -> SEmployer | dict:
 
 
 @router.post("/add/", summary='Добавить нового работодателя')
-async def register_employer(employer: SEmployerAdd) -> dict:
+async def register_employer(employer: SEmployerAdd, user_data: User = Depends(get_current_user)) -> dict:
     check = await EmployerDAO.add(**employer.dict())
     if check:
+        await update_user(new_data={'student_id': None,
+                                    'employer_id': check}, user_id=user_data.id)
         return {"message": "Работодатель успешно добавлен!", "employer": employer}
     else:
         return {"message": "Ошибка при добавлении работодателя!"}

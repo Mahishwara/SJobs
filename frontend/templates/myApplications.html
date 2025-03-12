@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if (applications) %}
+    <p class="text-center fs-1">Мои заявки</p>
+    <div class="row g-1">
+    {% for application in applications %}
+        <div class="card" style="width: 18rem;">
+        <div class="card-body">
+        <h5 class="card-title">{{application.post}}</h5>
+        <p class="card-text"> Описание: {{application.description}}</p>
+        <p class="card-text"> Работодатель: <a href="#">{{application.employer_name}}</a></p>
+        <p class="card-text"> Организация: {{application.organization}}</p>
+        <p class="card-text"> Статус: {{application.status}}</p>
+            <p class="card-text"> Описание статуса: {{application.status}}</p>
+        <a href="#" class="btn btn-primary">Удалить заявку</a>
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+    {% else%}
+    <p class="text-center fs-1">Нет заявок</p>
+    {% endif %}
+{% endblock %}

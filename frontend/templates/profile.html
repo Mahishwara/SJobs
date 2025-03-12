@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container align-items-center">
+    {% if role == 0 %}
+        <p class="text-center fs-1">Выберете свою роль</p>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-primary" type="button" onclick='gocreateStudent(event)'>Студент</button>
+            <button class="btn btn-primary" type="button" onclick='gocreateEmployer(event)'>Работодатель</button>
+        </div>
+    {% elif role == 1 %}
+    <h1>Мой профиль</h1>
+    <section class="vh-100" style="background-color: #f4f5f7;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+              <div class="card mb-3 " style="border-radius: .5rem;">
+                <div class="row g-0">
+                  <div class="col-md-4 gradient-custom text-center text-black"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                    <h5 >{{student['fio']}}</h5>
+                    <p>{{student.post}}</p>
+                    <button class="btn" onclick="logoutFunction()">Выйти из аккаунта</button>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body p-4">
+                      <h6>Общие данные</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                          <h6>Email</h6>
+                          <p class="text-muted">{{profile.email}}</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                          <h6>Телефон</h6>
+                          <p class="text-muted">{{profile.phone_number}}</p>
+                        </div>
+                          <div class="col-6 mb-3">
+                          <h6>Курс</h6>
+                          <p class="text-muted">{{student.course}}</p>
+                        </div>
+                          </div>
+                          <div class="col-6 mb-3">
+                          <h6>Специальность</h6>
+                          <p class="text-muted">{{student.speciality}}</p>
+                        </div>
+                      </div>
+                      <h6>Умения и опыт</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                          <p class="text-muted">{{student.ability}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    {% else %}
+    <h1>Мой профиль</h1>
+    <section class="vh-100" style="background-color: #f4f5f7;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+              <div class="card mb-3 " style="border-radius: .5rem;">
+                <div class="row g-0">
+                  <div class="col-md-4 gradient-custom text-center text-black"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                    <h5 class="">{{employer.name}}</h5>
+                    <i class="far fa-edit mb-5"></i>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body p-4">
+                      <h6>Общие данные</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                          <h6>Email</h6>
+                          <p class="text-muted">{{profile.email}}</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                          <h6>Телефон</h6>
+                          <p class="text-muted">{{profile.phone_number}}</p>
+                        </div>
+                          <div class="col-6 mb-3">
+                          <h6>Курс</h6>
+                          <p class="text-muted">{{employer.organization}}</p>
+                        </div>
+                      </div>
+                      <h6>Умения и опыт</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                          <p class="text-muted">{{employer.description}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

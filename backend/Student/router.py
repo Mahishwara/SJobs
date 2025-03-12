@@ -9,7 +9,7 @@ from backend.users.models import User
 from backend.users.router import update_user
 
 router = APIRouter(
-    prefix='/students',
+    prefix='/api/students',
     tags=['Студент']
 )
 

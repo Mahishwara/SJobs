@@ -22,6 +22,7 @@ app.add_middleware(
 )
 
 app.mount('/static/docs', StaticFiles(directory='frontend/static'), 'static')
+
 app.include_router(router_user)
 app.include_router(router_student)
 app.include_router(router_skill)

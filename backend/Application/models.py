@@ -10,8 +10,9 @@ class Application(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     id_student: Mapped[int] = mapped_column(ForeignKey('students.id'), nullable=False)
     id_vacancy: Mapped[int] = mapped_column(ForeignKey('vacancies.id'), nullable=False)
-    date: Mapped[date] = mapped_column(DATE, nullable=True)
-    id_status: Mapped[int] = mapped_column(ForeignKey('statuses.id'), nullable=False)
+    date: Mapped[date] = mapped_column(DATE, default=date.today())
+    id_status: Mapped[int] = mapped_column(ForeignKey('statuses.id'), default=1)
+
 
     extend_existing = True
 
@@ -20,8 +21,7 @@ class Application(Base):
                 f"id_student={self.id_student},"
                 f"id_vacancy={self.id_vacancy},"
                 f"date={self.date},"
-                f"status={self.status},"
-                f"needed_skill={self.needed_skill}")
+                f"status={self.status},")
 
     def __repr__(self):
         return str(self)
@@ -32,5 +32,4 @@ class Application(Base):
             "id_student": self.id_student,
             "id_vacancy": self.id_vacancy,
             "date": self.date,
-            "status": self.status,
-            "needed_skill": self.needed_skill,}
+            "status": self.status}

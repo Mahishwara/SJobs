@@ -7,7 +7,7 @@ from backend.users.models import User
 
 
 router = APIRouter(
-    prefix='/vacancies',
+    prefix='/api/vacancies',
     tags=['Вакансии']
 )
 
@@ -18,10 +18,10 @@ async def get_all_vacancies(request_body: RBVacancy = Depends()) -> list[SVacanc
 
 
 @router.get("/find/", summary="Получить все вакансии")
-async def find_vacancies(description) -> list[SVacancy]:
-    return await VacancyDAO.find_objects(description)
+async def find_vacancies(field, text) -> list[SVacancy]:
+    return await VacancyDAO.find_objects(field, text)
 
-@router.get("/{}", summary="Получить одину вакансию по ID")
+@router.get("/{vacancy_id}", summary="Получить одну вакансию по ID")
 async def get_vacancy_by_id(vacancy_id: int) -> SVacancy | dict:
     res = await VacancyDAO.get_object(id=vacancy_id)
     if res is None:

@@ -6,7 +6,7 @@ from backend.users.dependencies import get_current_user, get_current_admin_user
 from backend.users.models import User
 from backend.users.schemas import SUserRegister, SUserAuth
 
-router = APIRouter(prefix='/auth', tags=['Пользователь'])
+router = APIRouter(prefix='/api/auth', tags=['Пользователь'])
 
 
 @router.post("/register/")
@@ -53,4 +53,4 @@ async def update_user(new_data, user_id):
                                         student_id=new_data['student_id'])
     if new_data['employer_id'] is not None:
         check = await UsersDAO.update(filter_by={'id': user_id},
-                                        student_id=new_data['employer_id'])
+                                        employer_id=new_data['employer_id'])

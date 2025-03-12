@@ -42,3 +42,5 @@ class Vacancy(Base):
             "salary": self.salary,
             "id_employer": self.id_employer,
             "is_active": self.is_active,}
+
+

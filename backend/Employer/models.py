@@ -9,8 +9,6 @@ class Employer(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     organization: Mapped[str] = mapped_column(String(100), nullable=False)
-    email: Mapped[str] = mapped_column(String(60), nullable=True)
-    phone: Mapped[str] = mapped_column(String(20), nullable=True)
     description: Mapped[str] = mapped_column(String(100), nullable=True)
     extend_existing = True
 
@@ -18,8 +16,6 @@ class Employer(Base):
         return (f"{self.__class__.__name__}(id={self.id},"
                 f"name={self.name!r}, "
                 f"organization={self.organization!r}, "
-                f"email={self.email!r},"
-                f"phone={self.phone!r},"
                 f"adress={self.adress!r}, "
                 f"description={self.description!r})")
 

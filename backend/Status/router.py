@@ -7,7 +7,7 @@ from backend.users.dependencies import get_current_admin_user
 from backend.users.models import User
 
 router = APIRouter(
-    prefix='/statuses',
+    prefix='/api/statuses',
     tags=['Статус']
 )
 

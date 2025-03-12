@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+    <form id="data-vacancy">
+    <p class="text-center fs-1">Заполните информацию</p>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">На какую должность</span>
+        <input type="text" class="form-control" placeholder="Python-разработчик backend" aria-describedby="basic-addon1" name="post">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">Необходимые навыки для вакансии</span>
+        <input type="text" class="form-control" placeholder="Знание языка программирования, фреймворков FastApi, навыки работы с MySQL" aria-label="Python-разработчик" aria-describedby="basic-addon2" name="description">
+    </div>
+
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Необходимый уровень навыков</label>
+        <select class="form-select" id="inputGroupSelect01" name="level_skill">
+            <option selected>Choose...</option>
+            <option value="1">Junior</option>
+            <option value="2">Middle</option>
+            <option value="3">Senior</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">Продолжительность стажировки</span>
+        <input type="text" class="form-control" placeholder="C какой даты (например, 2025-01-01)" aria-describedby="basic-addon2" name="date_begin">
+        <span class="input-group-text" id="basic-addon4">-</span>
+        <input type="text" class="form-control" placeholder="По какую дату (например, 2025-02-01)" aria-describedby="basic-addon2" name="date_end">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon5">Зарплата</span>
+        <input type="text" class="form-control" placeholder="100" aria-describedby="basic-addon1" name="salary">
+        <span class="input-group-text" id="basic-addon6">тысяч рублей</span>
+        <input type="text" class="form-control" placeholder="100" aria-describedby="basic-addon1" name="id_employer" hidden value="{{employer_id}}">
+    </div>
+    <div class="d-grid gap-1 col-12 mx-auto" style="margin-top: 3px">
+        <button class="btn btn-primary" type="submit" onclick="createVacancy(event)">Создать</button>
+    </div>
+</form>
+{% endblock %}

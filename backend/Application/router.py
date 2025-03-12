@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends
 
 from backend.Application.dao import ApplicationDAO
 from backend.Application.rb import RBApplication
-from backend.Application.schemas import SApplication, SApplicationAdd, SApplicationUpd
+from backend.Application.schemas import SApplication, SApplicationAdd, SApplicationUpdStatus
 from backend.users.dependencies import get_current_admin_user
 from backend.users.models import User
 
 
 router = APIRouter(
-    prefix='/applications',
+    prefix='/api/applications',
     tags=['Заявка']
 )
 
@@ -35,8 +35,8 @@ async def register_application(application: SApplicationAdd) -> dict:
         return {"message": "Ошибка при добавлении заявки!"}
 
 
-@router.put("/update/{application_id}", summary='Изменить статус заявку по ID')
-async def update_application_status(application_id, application: SApplicationUpd) -> dict:
+@router.put("/update/{application_id}", summary='Изменить статус заявки по ID')
+async def update_application_status(application_id, application: SApplicationUpdStatus) -> dict:
     check = await ApplicationDAO.update(filter_by={'id': application_id},
                                    status=application.status)
     if check:
