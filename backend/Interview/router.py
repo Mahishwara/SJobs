@@ -8,7 +8,7 @@ from backend.users.models import User
 
 
 router = APIRouter(
-    prefix='/api/interview',
+    prefix='/api/interviews',
     tags=['Собеседования']
 )
 
@@ -16,6 +16,11 @@ router = APIRouter(
 @router.get("/", summary="Получить все собеседования")
 async def get_all_interviews(request_body: RBInterview = Depends()) -> list[SInterview]:
     return await InterviewDAO.get_all_objects(**request_body.to_dict())
+
+
+@router.get("/ordered", summary="Получить все собеседования")
+async def get_all_interviews(request_body: RBInterview = Depends()) -> list[SInterview]:
+    return await InterviewDAO.get_all_objects_order_by(**request_body.to_dict())
 
 
 @router.get("/{}", summary="Получить одно собеседование по ID")
@@ -38,7 +43,8 @@ async def register_interview(interview: SInterviewAdd) -> dict:
 @router.put("/update/{interview_id}", summary='Изменить дату собеседования по ID')
 async def update_interview(interview_id, interview: SInterviewUpd) -> dict:
     check = await InterviewDAO.update(filter_by={'id': interview_id},
-                                   date=interview.date)
+                                   date_start=interview.date_start,
+                                      time_start=interview.time_start)
     if check:
         return {"message": "Дата собеседования успешно обновлена!", "interview": interview}
     else:

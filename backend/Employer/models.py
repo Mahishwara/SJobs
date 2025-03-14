@@ -10,6 +10,7 @@ class Employer(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     organization: Mapped[str] = mapped_column(String(100), nullable=False)
     description: Mapped[str] = mapped_column(String(100), nullable=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     extend_existing = True
 
     def __str__(self):

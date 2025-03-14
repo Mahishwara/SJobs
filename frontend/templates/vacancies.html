@@ -3,23 +3,37 @@
 <body>
     {% if (vacancies) %}
     <p class="text-center fs-1">Опубликованные вакансии</p>
-    <div class="row g-1">
+    <div class="d-grid gap-1 col-12 d-flex justify-content-center">
+            <button class="btn btn-primary" type="submit" onclick="gocreateVacancy()">Создать новую вакансию</button>
+        </div>
+    <p></p>
+    <div class="row g-1 d-flex justify-content-center position-relative">
     {% for vacancy in vacancies %}
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 21rem;">
     <div class="card-body">
         <h5 class="card-title">{{vacancy.post}}</h5>
         <p class="card-text"> Уровень навыков: {{vacancy.level_skill}}</p>
         <p class="card-text"> Срок стажировки: {{vacancy.date_begin}} - {{vacancy.date_end}}</p>
         <p class="card-text"> Оплата: {{vacancy.salary}} тыс. рублей</p>
         <p class="card-text"> Описание: {{vacancy.description}}</p>
-        <a href="#" class="btn btn-primary">Посмотреть информацию по вакансии</a>
+        {% if (vacancy.is_active) %}
+        <p class="card-text" style="padding-bottom: 2px"> Активна: Да</p>
+        <div class="d-flex justify-content-center row">
+        <button type="button" class="btn btn-danger" onclick="deactivateVac(event, '{{vacancy.id}}')">Сделать неактивной</button>
+        <a href="/vacancy?id_vacancy={{vacancy.id}}" class="btn btn-primary" style="margin-top: 2px">Посмотреть информацию по вакансии</a>
+        </div>
+        {% else %}
+        <p class="card-text" style="padding-bottom: 10px"> Активна: Нет</p>
+        <div class="d-flex justify-content-center row">
+        <button type="button" class="btn btn-success" onclick="activateVac(event, '{{vacancy.id}}')">Сделать активной</button>
+        <a href="/vacancy?id_vacancy={{vacancy.id}}" class="btn btn-primary" style="margin-top: 2px">Посмотреть информацию по вакансии</a>
+        </div>
+        {% endif %}
+        <p></p>
     </div>
     </div>
     {% endfor %}
     </div>
-    <div class="d-grid gap-1 col-12 mx-auto">
-            <button class="btn btn-primary" type="submit" onclick="gocreateVacancy()">Создать новую вакансию</button>
-        </div>
     {% else %}
         <p class="text-center fs-1">Вы не выставляли вакансии</p>
     <p class="text-center fs-2">Создать вакансию Вы можете <a href="/create_vacancy">здесь</a></p>

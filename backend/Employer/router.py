@@ -19,7 +19,7 @@ async def get_all_employers(request_body: RBEmployer = Depends()) -> list[SEmplo
     return await EmployerDAO.get_all_objects(**request_body.to_dict())
 
 
-@router.get("/{}", summary="Получить одного работодателя по ID")
+@router.get("/{employer_id}", summary="Получить одного работодателя по ID")
 async def get_employer_by_id(employer_id: int) -> SEmployer | dict:
     res = await EmployerDAO.get_object(id=employer_id)
     if res is None:

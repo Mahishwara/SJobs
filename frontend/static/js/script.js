@@ -241,9 +241,8 @@ async function postApplication(event, id){
                             return;  // Прерываем выполнение функции
                         }
                         const result = await response3.json();
-                        if (!result.message) {  // Проверяем наличие сообщения об успешной регистрации
-                            alert(result.message || 'Неизвестная ошибка');  // Перенаправляем пользователя на страницу профиля
-                        }
+                         // Проверяем наличие сообщения об успешной регистрации
+                        alert(result.message || 'Неизвестная ошибка');  // Перенаправляем пользователя на страницу профиля
                     }
                     catch (error) {
                         console.error('Ошибка сети', error);
@@ -260,9 +259,171 @@ async function postApplication(event, id){
         alert('Нужно зарегистрироваться как студент')
         }
     } catch (error) {
-        console.error('Ошибка сети', error);
+        console.error('Ошибка сервера', error);
     }
 }
+
+async function activateVac(event, id) {
+    try {
+        let url = 'api/vacancies/updateActive/' + id
+        let response = fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                is_active: true
+            })
+        })
+        alert('Вакансия активирована')
+        location.reload()
+    } catch (error){
+        alert('Ошибка сети')
+    }
+}
+
+
+async function deactivateVac(event, id) {
+    try {
+        let url = 'api/vacancies/updateActive/' + id
+        let response = fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                is_active: false
+            })
+        })
+        alert('Вакансия деактивирована')
+        location.reload()
+    } catch (error){
+        alert('Ошибка сети')
+    }
+}
+
+
+async function updStatus(event, student, vacancy, application, current_status, current_date, current_time, interview_id) {
+    let new_status = document.getElementById("new_status");
+    new_status = new_status.value;
+    let interview = false
+    let date = document.getElementById("date");
+    date = date.value;
+    let time = document.getElementById("time");
+    time = time.value;
+    if ((new_status === '3')){
+        if (current_status !== "3"){
+            let url2 = '/api/interviews/add/'
+            try {
+                const response2 = await fetch(url2, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "id_student": student,
+                        "id_vacancy": vacancy,
+                        "date_start": date,
+                        'time_start': time
+                    })
+                });
+                if (!response2.ok) {
+                    // Получаем данные об ошибке
+                    const errorData = await response2.json();
+                    displayErrors(errorData);  // Отображаем ошибки
+                    return;  // Прерываем выполнение функции
+                }
+                else {
+                    interview = true
+                }
+            } catch (error){
+                const errorData = await response2.json();
+                    displayErrors(errorData);  // Отображаем ошибки
+                    return;
+            }
+        }
+        else{
+            if ((date !== current_date) || ((time + ':00')!== current_time)) {
+                let url2 = '/api/interviews/update/' + interview_id
+                try {
+                    const response2 = await fetch(url2, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            "date_start": date,
+                            'time_start': time
+                        })
+                    });
+                    if (!response2.ok) {
+                        // Получаем данные об ошибке
+                        const errorData = await response2.json();
+                        displayErrors(errorData);  // Отображаем ошибки
+                        return;  // Прерываем выполнение функции
+                    }
+                    else {
+                        interview = true
+                    }
+                } catch (error){
+                    const errorData = await response2.json();
+                        displayErrors(errorData);  // Отображаем ошибки
+                        return;
+                }
+            }
+        }
+    }
+    if ((new_status === current_status) && (!interview)) {
+        alert('Выбранный статус уже установлен');
+    }
+    else {
+        if ((current_status === "3") && (new_status !== '3')) {
+            let url3 = '/api/interviews/delete/' + interview_id
+            try {
+                    const response3 = await fetch(url3, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (!response3.ok) {
+                        // Получаем данные об ошибке
+                        const errorData = await response3.json();
+                        displayErrors(errorData);  // Отображаем ошибки
+                        return;  // Прерываем выполнение функции
+                    }
+                } catch (error){
+                    const errorData = await response3.json();
+                        displayErrors(errorData);  // Отображаем ошибки
+                        return;
+                }
+        }
+        let url = '/api/applications/update/' + application;
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                'Content-Type': 'application/json'
+            },
+                body: JSON.stringify({
+                                "id_status": new_status
+                            })
+            });
+            if (response.ok){
+                if (new_status === '3') {
+                    alert('Статус обновлен, установлены дата и время собеседования')
+                }
+                else {
+                    alert('Статус обновлен')
+                }
+                location.reload()
+            }
+        } catch (error) {
+            displayErrors(error);
+        }
+    }
+}
+
 
 async function logoutFunction(event) {
     try {
@@ -311,75 +472,9 @@ async function profileFunction(event) {
     }
 }
 
-async function checkAuthFunction(event) {
-    try {
-        let response = await fetch('/api/auth/me', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const result = await response.json();
-        // Проверка ответа сервера
-        if (result.detail) {
-            window.location.href = '/login';
-        }
-    } catch (error) {
-        console.error('Ошибка сети', error);
-    }
-}
 
-async function bookingFunction(event) {
-    event.preventDefault();
-    const form = document.getElementById('booking-form');
-    const formData = new FormData(form);
-    let data = Object.fromEntries(formData.entries());
-    console.log(data)
-    try {
-        let response = await fetch('/api/reservations/check/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        let result = await response.json();
-        // Проверка ответа сервера
-        if (!result.ok) {
-            displayErrors(result);
-        } else {
-            result = result.data
-            let response2 = await fetch('/api/auth/me', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            response2 = await response2.json();
-            user_id = response2.id
-
-            let response3 = await fetch('/api/reservations/add/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({'name': result.name,
-                    'date_from': result.date_from,
-                    'date_to': result.date_to,
-                    'object_id': result.object_id,
-                    'user_id': user_id})
-            });
-            final = await response3.json();
-            alert(final.message);
-        }
-    } catch (error) {
-        console.error('Ошибка сети', error);
-    }
-}
-
-async function deleteFunction(event) {
-    let reservation = document.getElementById('res_id').textContent
-    let current_url = '/api/reservations/dell/?reservation_id=' + reservation
+async function deleteApplication(event, id) {
+    let current_url = '/api/applications/delete/?application_id='+ id
     try {
         let response = await fetch(current_url, {
             method: 'DELETE',

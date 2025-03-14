@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from backend.Vacancy.dao import VacancyDAO
 from backend.Vacancy.rb import RBVacancy
-from backend.Vacancy.schemas import SVacancy, SVacancyAdd, SVacancyUpd
+from backend.Vacancy.schemas import SVacancy, SVacancyAdd, SVacancyUpd, SVacancyUpdActive
 from backend.users.dependencies import get_current_admin_user
 from backend.users.models import User
 
@@ -43,12 +43,21 @@ async def update_vacancy(vacancy_id, vacancy: SVacancyUpd) -> dict:
     check = await VacancyDAO.update(filter_by={'id': vacancy_id},
                                    name=vacancy.name, description=vacancy.description,
                                     level_skill=vacancy.level_skill,
-                                    salary=vacancy.salary,
-                                    is_active=vacancy.is_active)
+                                    salary=vacancy.salary)
     if check:
         return {"message": "Вакансия успешно обновлена!", "vacancy": vacancy}
     else:
         return {"message": "Ошибка при обновлении вакансии!"}
+
+
+@router.put("/updateActive/{vacancy_id}", summary='Изменить вакансию по ID')
+async def update_vacancy_active(vacancy_id, vacancy: SVacancyUpdActive) -> dict:
+    check = await VacancyDAO.update(filter_by={'id': vacancy_id},
+                                    is_active=vacancy.is_active)
+    if check:
+        return {"ok": True, "message": "Активность вакансии успешно обновлена!", "vacancy": vacancy}
+    else:
+        return {"message": "Ошибка при обновлении активности вакансии!"}
 
 
 @router.delete("/delete/{vacancy_id}", summary='Удалить вакансию по ID')

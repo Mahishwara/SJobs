@@ -44,7 +44,7 @@ class SVacancyAdd(BaseModel):
 
         if validate_date and validate_date > datetime.today():
             return validate_date.date()
-        raise ValueError('Дата должна быть в формате ГГГГ-ММ-ДД и быть позднее сегоднешнего дня')
+        raise ValueError('Дата должна быть в формате ГГГГ-ММ-ДД и быть позднее сегодняшнего дня')
 
 
 class SVacancyUpd(BaseModel):
@@ -70,3 +70,7 @@ class SVacancyUpd(BaseModel):
         if validate_date and validate_date > datetime.today():
             return validate_date
         raise ValueError('Дата должна быть в формате ГГГГ-ММ-ДД и быть позднее сегоднешнего дня')
+
+
+class SVacancyUpdActive(BaseModel):
+    is_active: bool

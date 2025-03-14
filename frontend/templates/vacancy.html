@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <section class="vh-50" style="background-color: #f4f5f7;">
+        <div class="container py-5 h-50">
+          <div class="row d-flex justify-content-center align-items-center h-0 ">
+            <div class="col">
+              <div class="card mb-3 " style="border-radius: .5rem;">
+                <div class="row g-0">
+                  <div class="col-md-4 gradient-custom text-center text-black"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+                    <h5 >{{vacancy.post}}</h5>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body p-4">
+                      <h6>Общие данные</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                          <h6>Описание</h6>
+                          <p class="text-muted">{{vacancy.description}}</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                          <h6>Требуемый уровень навыков</h6>
+                          <p class="text-muted">{{vacancy.level_skill}}</p>
+                        </div>
+                          <div class="col-6 mb-3">
+                          <h6>Дата стажировки</h6>
+                          <p class="text-muted">{{vacancy.date_begin}} - {{vacancy.date_end}}</p>
+                        </div>
+                          </div>
+                          <div class="col-6 mb-3">
+                          <h6>Оплата</h6>
+                          <p class="text-muted">{{vacancy.salary}} тысяч рублей</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    {% if (applications) %}
+    <p class="text-center fs-1">Заявки на вакансию</p>
+    <div class="row g-1 d-flex justify-content-center">
+    {% for application in applications %}
+    <div class="card" style="width: 21rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{application.student}}</h5>
+        <p class="card-text"> Уровень навыков: {{application.level}}</p>
+        <p class="card-text"> Курс обучения: {{application.course}}</p>
+        <p class="card-text"> Специальность обучения: {{application.speciality}}</p>
+        <p class="card-text"> Описание навыков: {{application.ability}}</p>
+        <p class="card-text"> Текущий статус: {{application.status}}</p>
+        {% if application.id_status == 3 %}
+        <p class="card-text"> Назначенная дата собеседования: </br>{{application.interview_date}}</p>
+        <p class="card-text"> Назначенное время собеседования: {{application.interview_time}}</p>
+        {% endif %}
+        <label class="" for="new_status">Новый статус</label>
+        <select class="form-select" id="new_status" name="status">
+            <option selected>Выберите новый статус</option>
+            <option value='1'>Рассмотрение заявки</option>
+            <option value="3">Назначено собеседование</option>
+            <option value="4">Собеседование пройдено успешно</option>
+            <option value="2">Заявка отклонена</option>
+        </select>
+            <p class="card-text">Для статуса "Назначено собеседование":</p>
+            <span class="input-group-text" id="basic-addon2">Дата собеседования</span>
+            <input type="text" class="form-control" placeholder="ГГГГ-ММ-ДД" aria-label="Python-разработчик" aria-describedby="basic-addon2" id="date">
+            <span class="input-group-text" id="basic-addon3">Время собеседования</span>
+            <input type="text" class="form-control" placeholder="ЧЧ-ММ" aria-label="Python-разработчик" aria-describedby="basic-addon3" id="time">
+        <button class="btn btn-primary" type="submit" onclick="updStatus(event, '{{application.id_student}}',
+        '{{application.id_vacancy}}', '{{application.id}}', '{{application.id_status}}', '{{application.interview_date}}', '{{application.interview_time}}', '{{application.interview}}')">Установить новый статус</button>
+    </div>
+    </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        <p class="text-center fs-1">Нет заявок на вакансию</p>
+    {% endif %}
+</body>
+{% endblock %}

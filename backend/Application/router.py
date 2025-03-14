@@ -38,14 +38,14 @@ async def register_application(application: SApplicationAdd) -> dict:
 @router.put("/update/{application_id}", summary='Изменить статус заявки по ID')
 async def update_application_status(application_id, application: SApplicationUpdStatus) -> dict:
     check = await ApplicationDAO.update(filter_by={'id': application_id},
-                                   status=application.status)
+                                   id_status=application.id_status)
     if check:
         return {"message": "Статус заявки успешно обновлена!", "application": application}
     else:
         return {"message": "Ошибка при обновлении статуса заявки!"}
 
 
-@router.delete("/delete/{application_id}", summary='Удалить заявку по ID')
+@router.delete("/delete/", summary='Удалить заявку по ID')
 async def delete_application(application_id) -> dict:
     check = await ApplicationDAO.delete(id=application_id)
     if check:

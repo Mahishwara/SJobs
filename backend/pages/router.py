@@ -36,11 +36,9 @@ async def get_login_html(request: Request):
 async def get_my_profile(request: Request, profile=Depends(get_me)):
     if profile.student_id is not None:
         student = await fetch(f'http://127.0.0.1:8000/api/students/?id={profile.student_id}')
-        print(student)
         return templates.TemplateResponse(name='profile.html', context={'request': request, 'role': 1, 'student': student[0], 'profile': profile})
     if profile.employer_id is not None:
         employer = await fetch(f'http://127.0.0.1:8000/api/employers/?id={profile.employer_id}')
-        print(employer)
         return templates.TemplateResponse(name='profile.html', context={'request': request,'role': 2, 'employer': employer[0], 'profile': profile})
     return templates.TemplateResponse(name='profile.html', context={'request': request, 'role': 0})
 
@@ -58,11 +56,40 @@ async def get_create_employer_html(request: Request):
 @router.get('/vacancies')
 async def get_vacancies_html(request: Request, user_data=Depends(get_me)):
     vacancies = await fetch(f'http://127.0.0.1:8000/api/vacancies/?id_employer={user_data.employer_id}')
+    levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
     for vacancy in vacancies:
-        levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
         vacancy['level_skill'] = [level['level'] for level in levels if level['id'] == vacancy['level_skill']][0]
     return templates.TemplateResponse(name='vacancies.html', context={'request': request, 'vacancies': vacancies})
 
+
+@router.get('/vacancy')
+async def get_vacancy_html(request: Request, id_vacancy, user_data=Depends(get_me)):
+    vacancy = await fetch(f'http://127.0.0.1:8000/api/vacancies/?id={id_vacancy}')
+    vacancy = vacancy[0]
+    levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
+    vacancy['level_skill'] = [level['level'] for level in levels if level['id'] == vacancy['level_skill']][0]
+    applications = await fetch(f'http://127.0.0.1:8000/api/applications/?id_vacancy={id_vacancy}')
+    statuses = await fetch(f'http://127.0.0.1:8000/api/statuses/')
+    for application in applications:
+        student = await fetch(f'http://127.0.0.1:8000/api/students/?id={application["id_student"]}')
+        student = student[0]
+        interview = await fetch(f'http://127.0.0.1:8000/api/interviews/?id_student={application["id_student"]}&id_vacancy={id_vacancy}')
+        if interview:
+            interview = interview[0]
+            application['interview'] = interview['id']
+            application['interview_date'] = interview['date_start']
+            application['interview_time'] = interview['time_start']
+        else:
+            application['interview'] = 0
+            application['interview_date'] = 0
+            application['interview_time'] = 0
+        application['student'] = student['fio']
+        application['speciality'] = student['speciality']
+        application['course'] = student['course']
+        application['ability'] = student['ability']
+        application['level'] = [level['level'] for level in levels if level['id'] == student['level_skill']][0]
+        application['status'] = [status['name'] for status in statuses if status['id'] == application['id_status']][0]
+    return templates.TemplateResponse(name='vacancy.html', context={'request': request, 'vacancy': vacancy, 'applications': applications})
 
 @router.get('/create_vacancy')
 async def get_create_vacancy_html(request: Request, user_data=Depends(get_me)):
@@ -70,10 +97,10 @@ async def get_create_vacancy_html(request: Request, user_data=Depends(get_me)):
 
 
 @router.get('/find_vacancies')
-async def get_find_vacancies_html(request: Request):
-    vacancies =  await fetch(f'http://127.0.0.1:8000/api/vacancies')
+async def get_find_vacancies_html(request: Request, ):
+    vacancies =  await fetch(f'http://127.0.0.1:8000/api/vacancies/?is_active=true')
+    levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
     for vacancy in vacancies:
-        levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
         vacancy['level_skill'] = [level['level'] for level in levels if level['id'] == vacancy['level_skill']][0]
     return templates.TemplateResponse(name='findVacancy.html', context={'request': request, 'vacancies':vacancies})
 
@@ -93,3 +120,15 @@ async def get_create_vacancy_html(request: Request, user_data=Depends(get_me)):
                 application['employer_id'], application['employer_name'],  application['organization']= employer['id'], employer['name'], employer['organization']
                 break
     return templates.TemplateResponse(name='myApplications.html', context={'request': request, 'applications': applications})
+
+
+@router.get('/calendar')
+async def get_calendar_html(request: Request, user_data=Depends(get_me)):
+    interviews = await fetch(f'http://127.0.0.1:8000/api/interviews/ordered?id_student={user_data.student_id}')
+    for interview in interviews:
+        vacancy = await fetch(f'http://127.0.0.1:8000/api/vacancies/{interview["id_vacancy"]}')
+        interview['post'] = vacancy['post']
+        interview['salary'] = vacancy['salary']
+        employer = await fetch(f'http://127.0.0.1:8000/api/employers/{vacancy["id_employer"]}')
+        interview['organization'] = employer['organization']
+    return templates.TemplateResponse(name='calendar.html', context={'request': request, 'interviews': interviews})

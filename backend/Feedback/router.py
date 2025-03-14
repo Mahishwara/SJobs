@@ -38,7 +38,8 @@ async def register_feedback(feedback: SFeedbackAdd) -> dict:
 @router.put("/update/{feedback_id}", summary='Изменить отзыв по ID')
 async def update_feedback(feedback_id, feedback: SFeedbackUpd) -> dict:
     check = await FeedbackDAO.update(filter_by={'id': feedback_id},
-                                   description=feedback.description)
+                                   description=feedback.description,
+                                     rate=feedback.rate)
     if check:
         return {"message": "Отзыв успешно обновлен!", "feedback": feedback}
     else:

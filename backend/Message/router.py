@@ -18,7 +18,7 @@ async def get_all_messages(request_body: RBMessage = Depends()) -> list[SMessage
     return await MessageDAO.get_all_objects(**request_body.to_dict())
 
 
-@router.get("/{}", summary="Получить одно сообщение по ID")
+@router.get("/{message_id}", summary="Получить одно сообщение по ID")
 async def get_message_by_id(message_id: int) -> SMessage | dict:
     res = await MessageDAO.get_object(id=message_id)
     if res is None:
