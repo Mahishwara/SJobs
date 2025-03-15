@@ -1,21 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 <body>
-    <section class="vh-50" style="background-color: #f4f5f7;">
-        <div class="container py-5 h-50">
+    <section class="vh-0" style="background-color: #f4f5f7;">
+        <div class="container py-5 h-0">
+            <p class="fs-2 text-center">{{vacancy.post}}</p>
           <div class="row d-flex justify-content-center align-items-center h-0 ">
             <div class="col">
               <div class="card mb-3 " style="border-radius: .5rem;">
                 <div class="row g-0">
                   <div class="col-md-4 gradient-custom text-center text-black"
                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                      alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-                    <h5 >{{vacancy.post}}</h5>
                   </div>
-                  <div class="col-md-8">
+                  <div class="">
                     <div class="card-body p-4">
-                      <h6>Общие данные</h6>
+                      <h6 class="text-center">Общие данные</h6>
                       <hr class="mt-0 mb-4">
                       <div class="row pt-1">
                         <div class="col-6 mb-3">
@@ -35,14 +33,16 @@
                           <h6>Оплата</h6>
                           <p class="text-muted">{{vacancy.salary}} тысяч рублей</p>
                         </div>
+                        <div class="btn-group_vertical text-center" role="group">
+                        <a type="button" class="btn btn-primary" href="/feedbacks_vacancy?id={{vacancy.id}}">Посмотреть отзывы</a>
+                      </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
             </div>
           </div>
-        </div>
     </section>
     {% if (applications) %}
     <p class="text-center fs-1">Заявки на вакансию</p>

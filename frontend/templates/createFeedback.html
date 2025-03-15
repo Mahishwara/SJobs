@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <form id="data-feedback">
+    <p class="text-center fs-1">Заполните информацию</p>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Рейтинг </span>
+        <select class="form-select" id="rate" name="rate">
+            <option selected value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">Описание отзыва</span>
+        <input type="text" class="form-control" id="description" aria-describedby="basic-addon2" name="description">
+    </div>
+    <div class="d-grid gap-1 col-12 mx-auto" style="margin-top: 3px">
+        <button class="btn btn-primary" type="submit" onclick="postFeedback(event, '{{id_to}}', '{{path}}', '{{id_from}}')">Отправить отзыв</button>
+    </div>
+</form>
+{% endblock %}

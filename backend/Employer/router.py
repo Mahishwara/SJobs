@@ -41,7 +41,8 @@ async def register_employer(employer: SEmployerAdd, user_data: User = Depends(ge
 @router.put("/update/{employer_id}", summary='Изменить работодателя по ID')
 async def update_employer(employer_id, employer: SEmployerUpd) -> dict:
     check = await EmployerDAO.update(filter_by={'id': employer_id},
-                                   name=employer.name, description=employer.description)
+                                   name=employer.name, organization=employer.organization,
+                                     description=employer.description)
     if check:
         return {"message": "Работодатель успешно обновлен!", "employer": employer}
     else:

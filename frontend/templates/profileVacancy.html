@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <section class="vh-0" style="background-color: #f4f5f7;">
+        <div class="container py-5 h-0">
+            <p class="fs-2 text-center">{{vacancy.post}}</p>
+          <div class="row d-flex justify-content-center align-items-center h-0 ">
+            <div class="col">
+              <div class="card mb-3 " style="border-radius: .5rem;">
+                <div class="row g-0">
+                  <div class="col-md-4 gradient-custom text-center text-black"
+                    style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                  </div>
+                  <div class="">
+                    <div class="card-body p-4">
+                      <h6 class="text-center">Общие данные</h6>
+                      <hr class="mt-0 mb-4">
+                      <div class="row pt-1">
+                        <div class="col-6 mb-3">
+                          <h6>Описание</h6>
+                          <p class="text-muted">{{vacancy.description}}</p>
+                        </div>
+                        <div class="col-6 mb-3">
+                          <h6>Требуемый уровень навыков</h6>
+                          <p class="text-muted">{{vacancy.level_skill}}</p>
+                        </div>
+                          <div class="col-6 mb-3">
+                          <h6>Организация</h6>
+                          <p class="text-muted">{{vacancy.organization}}</p>
+                        </div>
+                          <div class="col-6 mb-3">
+                          <h6>Дата стажировки</h6>
+                          <p class="text-muted">{{vacancy.date_begin}} - {{vacancy.date_end}}</p>
+                        </div>
+                          </div>
+                          <div class="col-6 mb-3">
+                          <h6>Оплата</h6>
+                          <p class="text-muted">{{vacancy.salary}} тысяч рублей</p>
+                        </div>
+                      </div>
+                      <div class="btn-group_vertical text-center" role="group">
+                        <button type="button" class="btn btn-primary" onclick="postApplication(event, '{{vacancy.id}}')">Подать заявку</button>
+                        <button type="button" class="btn btn-primary" onclick="gopostFeedback(event, '{{vacancy.id}}', 1)">Оставить отзыв</button>
+                        <button type="button" class="btn btn-primary" onclick="goMessage(event, '{{vacancy.id}}', 1)">Написать сообщение</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+    </section>
+    {% if (feedbacks) %}
+    <p class="text-center fs-1">Отзывы</p>
+    <div class="row-1 g-1 d-flex justify-content-center">
+    {% for feedback in feedbacks %}
+    <div class="card" style="width: 21rem;">
+    <div class="card-body">
+        <h5 class="card-title">Студент: {{feedback.student}}</h5>
+        <p class="card-text"> Рейтинг: {{feedback.rate}}/10</p>
+        <p class="card-text"> Описание: {{feedback.description}}</p>
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-center fs-1">Нет отзывов</p>
+    {% endif %}
+</body>
+{% endblock %}

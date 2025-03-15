@@ -18,7 +18,7 @@ async def get_all_feedbacks(request_body: RBFeedback = Depends()) -> list[SFeedb
     return await FeedbackDAO.get_all_objects(**request_body.to_dict())
 
 
-@router.get("/{}", summary="Получить один отзыв по ID")
+@router.get("/{feedback_id}", summary="Получить один отзыв по ID")
 async def get_feedback_by_id(feedback_id: int) -> SFeedback | dict:
     res = await FeedbackDAO.get_object(id=feedback_id)
     if res is None:

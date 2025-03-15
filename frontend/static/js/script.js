@@ -263,6 +263,144 @@ async function postApplication(event, id){
     }
 }
 
+
+async function gopostFeedback(event, id_to, path){
+    event.preventDefault();
+    let url = '/create_feedback?id_to=' + id_to + '&path=' + path
+    window.location.href = url
+}
+
+
+async function goeditFeedback(event, who, rate, desc, id){
+    event.preventDefault();
+    let url = '/edit_feedback?who=' + who + '&rate=' + rate + '&desc=' + desc + '&id=' + id
+    window.location.href = url
+}
+
+async function goeditProfile(event){
+    event.preventDefault();
+    let url = '/edit_profile'
+    window.location.href = url
+}
+
+
+async function goMessage(event, id_to, path){
+    event.preventDefault();
+    let url = '/post_message?id_to=' + id_to + '&path=' + path
+    window.location.href = url
+}
+
+
+async function updateFeedback(event, id) {
+    event.preventDefault();
+    const rate = document.getElementById('rate').value;
+    const description = document.getElementById('description').value
+    let url = 'api/feedbacks/update/' + id
+    try {
+        let response2 = await fetch(url,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'rate': rate,
+                    'description': description,
+                })
+            });
+        alert('Отзыв обновлен');
+        window.location.href = '/my_feedbacks'
+    } catch (e) {
+        alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
+    }
+}
+
+
+async function editProfile(event, role, id) {
+    event.preventDefault();
+    let form_name = '';
+    let url = '';
+    if (role === 'student') {
+        form_name = 'data-student';
+        url = 'api/students/update/';
+    }
+    else {
+        form_name = 'data-employer';
+        url = 'api/employers/update/'
+    }
+    url = url + id
+    const form = document.getElementById(form_name)
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    try {
+        let response2 = await fetch(url,
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+        alert('Профиль обновлен');
+        window.location.href = '/profile'
+    } catch (e) {
+        alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
+    }
+}
+
+async function postFeedback(event, id_to, path, id_from) {
+    event.preventDefault();
+    const rate = document.getElementById('rate').value;
+    const description = document.getElementById('description').value
+    let url = 'api/feedbacks/add/'
+    try {
+        let response2 = await fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id_to': id_to,
+                    'id_from': id_from,
+                    'rate': rate,
+                    'description': description,
+                    'path': path
+                })
+            });
+        alert('Отзыв отправлен');
+        window.location.href = '/my_feedbacks'
+    } catch (e) {
+        alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
+    }
+}
+
+
+async function postMessage(event, id_student, path, id_vacancy) {
+    event.preventDefault();
+    const description = document.getElementById('description').value
+    let url = 'api/messages/add/'
+    try {
+        let response2 = await fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id_student': id_student,
+                    'id_vacancy': id_vacancy,
+                    'description': description,
+                    'path_type': path
+                })
+            });
+        alert('Сообщение отправлено');
+        window.history.go(-1)
+    } catch (e) {
+        alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
+    }
+}
+
 async function activateVac(event, id) {
     try {
         let url = 'api/vacancies/updateActive/' + id

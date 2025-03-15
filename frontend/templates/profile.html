@@ -21,7 +21,8 @@
                       alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
                     <h5 >{{student['fio']}}</h5>
                     <p>{{student.post}}</p>
-                    <button class="btn" onclick="logoutFunction()">Выйти из аккаунта</button>
+                    <button class="btn btn-primary" onclick="logoutFunction()">Выйти из аккаунта</button>
+                      <button class="btn btn-success" onclick="goeditProfile(event)">Редактировать профиль</button>
                   </div>
                   <div class="col-md-8">
                     <div class="card-body p-4">
@@ -71,6 +72,8 @@
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
                       alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
                     <h5 class="">{{employer.name}}</h5>
+                      <button class="btn btn-primary" onclick="logoutFunction()">Выйти из аккаунта</button>
+                      <button class="btn btn-success" onclick="goeditProfile(event)">Редактировать профиль</button>
                     <i class="far fa-edit mb-5"></i>
                   </div>
                   <div class="col-md-8">

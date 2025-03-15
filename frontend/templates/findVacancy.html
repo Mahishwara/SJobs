@@ -26,7 +26,7 @@
         <p class="card-text"> Оплата: {{vacancy.salary}} тыс. рублей</p>
         <p class="card-text"> Описание: {{vacancy.description}}</p>
         <p id="vacancy_id" hidden>{{vacancy.id}}</p>
-        <a href="" class="btn btn-primary" onclick="postApplication(event, '{{vacancy.id}}')">Подать заявку</a>
+        <a href="/vacancy_profile?vacancy_id={{vacancy.id}}" class="btn btn-primary" >Открыть</a>
     </div>
     </div>
     {% endfor %}

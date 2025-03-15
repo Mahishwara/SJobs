@@ -19,7 +19,7 @@ async def get_all_students(request_body: RBStudent = Depends()) -> list[SStudent
     return await StudentDAO.get_all_objects(**request_body.to_dict())
 
 
-@router.get("/{}", summary="Получить одного студента по ID")
+@router.get("/{student_id}", summary="Получить одного студента по ID")
 async def get_student_by_id(student_id: int) -> SStudent | dict:
     res = await StudentDAO.get_object(id=student_id)
     if res is None:
@@ -44,8 +44,7 @@ async def register_student(student: SStudentAdd, user_data: User = Depends(get_c
 @router.put("/update/{student_id}", summary='Изменить студента')
 async def update_student(student_id, student: SStudentUpd) -> dict:
     check = await StudentDAO.update(filter_by={'id': student_id},
-                                    lastname=student.lastname,
-                                    firstname=student.firstname,
+                                    fio=student.fio,
                                     post=student.post,
                                     level_skill=student.level_skill,
                                     speciality=student.speciality,
