@@ -49,7 +49,9 @@ async def update_student(student_id, student: SStudentUpd) -> dict:
                                     level_skill=student.level_skill,
                                     speciality=student.speciality,
                                     course=student.course,
-                                    ability=student.ability)
+                                    ability=student.ability,
+                                    subscribe=student.subscribe,
+                                    code_word=student.code_word)
     if check:
         return {"message": f"Данные студента успешно обновлены", "student": student}
     else:

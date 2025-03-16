@@ -17,6 +17,8 @@ class Student(Base):
     course: Mapped[int] = mapped_column(Integer, nullable=False)
     ability: Mapped[str] = mapped_column(String(500), nullable=False)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
+    subscribe: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    code_word: Mapped[str] = mapped_column(String(50), nullable=False)
     extend_existing = True
 
     def __str__(self):
@@ -34,4 +36,6 @@ class Student(Base):
             'level_skill': self.level_skill,
             'speciality': self.speciality,
             'course': self.course,
-            'ability': self.ability}
+            'ability': self.ability,
+            'subscribe': self.subscribe,
+            'code_word': self.code_word,}
