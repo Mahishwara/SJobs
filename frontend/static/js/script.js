@@ -308,8 +308,15 @@ async function updateFeedback(event, id) {
                     'description': description,
                 })
             });
-        alert('Отзыв обновлен');
-        window.location.href = '/my_feedbacks'
+        if (response2.ok) {
+            alert('Отзыв обновлен');
+            window.location.href = '/my_feedbacks'
+        }
+        else {
+            const errorData = await response2.json();
+            displayErrors(errorData);  // Отображаем ошибки
+            return;
+        }
     } catch (e) {
         alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
     }
@@ -341,8 +348,15 @@ async function editProfile(event, role, id) {
                 },
                 body: JSON.stringify(data)
             });
-        alert('Профиль обновлен');
-        window.location.href = '/profile'
+        if (response2.details){
+            const errorData = await response2.json();
+            displayErrors(errorData);  // Отображаем ошибки
+            return;
+        }
+        else {
+            alert('Профиль обновлен');
+            window.location.href = '/profile'
+        }
     } catch (e) {
         alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
     }
@@ -368,8 +382,15 @@ async function postFeedback(event, id_to, path, id_from) {
                     'path': path
                 })
             });
-        alert('Отзыв отправлен');
-        window.location.href = '/my_feedbacks'
+        if (response2.details){
+            const errorData = await response2.json();
+            displayErrors(errorData);  // Отображаем ошибки
+            return;
+        }
+        else {
+            alert('Отзыв отправлен');
+            window.location.href = '/my_feedbacks'
+        }
     } catch (e) {
         alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
     }
@@ -394,8 +415,15 @@ async function postMessage(event, id_student, path, id_vacancy) {
                     'path_type': path
                 })
             });
-        alert('Сообщение отправлено');
-        window.history.go(-1)
+            if (response2.details){
+            const errorData = await response2.json();
+            displayErrors(errorData);  // Отображаем ошибки
+            return;
+        }
+            else {
+                alert('Сообщение отправлено');
+                window.history.go(-1)
+            }
     } catch (e) {
         alert('Ошибка сети! Пожалуйста, попробуйте позднее!')
     }
@@ -581,29 +609,6 @@ async function logoutFunction(event) {
             // Чтение возможного сообщения об ошибке от сервера
             const errorData = await response.json();
             console.error('Ошибка при выходе:', errorData.message || response.statusText);
-        }
-    } catch (error) {
-        console.error('Ошибка сети', error);
-    }
-}
-
-
-
-async function profileFunction(event) {
-    event.preventDefault();
-    try {
-        let response = await fetch('/api/auth/me', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const result = await response.json()
-        // Проверка ответа сервера
-        if (!result.detail) {
-            window.location.href = '/profile';
-        } else {
-            window.location.href = '/login';
         }
     } catch (error) {
         console.error('Ошибка сети', error);
