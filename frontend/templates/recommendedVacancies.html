@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+{% if subscribe %}
+<p class="text-center fs-1">Интересующие вас вакансии за последний день</p>
+    {% if (vacancies) %}
+    <div class="row g-1 text-center d-flex justify-content-center">
+    {% for vacancy in vacancies %}
+    <div class="card" style="width: 21rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{vacancy.post}}</h5>
+        <p class="card-text"> Уровень навыков: {{vacancy.level_skill}}</p>
+        <p class="card-text"> Срок стажировки: {{vacancy.date_begin}} - {{vacancy.date_end}}</p>
+        <p class="card-text"> Оплата: {{vacancy.salary}} тыс. рублей</p>
+        <p class="card-text"> Описание: {{vacancy.description}}</p>
+        <p id="vacancy_id" hidden>{{vacancy.id}}</p>
+        <a href="/vacancy_profile?vacancy_id={{vacancy.id}}" class="btn btn-primary" >Открыть</a>
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+    {% else %}
+    <p class="fs-1 text-center">За последний день нет интересующих вакансий</p>
+    {% endif %}
+{% else %}
+    <p class="fs-1 text-center">Вы не подписались на рекомендации в профиле</p>
+{% endif %}
+</body>
+{% endblock %}
