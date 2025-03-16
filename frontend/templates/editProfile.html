@@ -22,12 +22,10 @@
             <option value="3">Senior</option>
         </select>
     </div>
-
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon3">Специальность</span>
         <input type="text" class="form-control" value="{{student.speciality}}" placeholder="Программная инженерия" aria-label="Python-разработчик" aria-describedby="basic-addon2" name="speciality">
     </div>
-
     <div class="input-group mb-3">
         <label class="input-group-text" for="inputGroupSelect02">Курс обучения</label>
         <select class="form-select" id="inputGroupSelect02" name="course">
@@ -40,7 +38,18 @@
             <option value="6">6 курс (Магистратура 2 курс)</option>
         </select>
     </div>
-
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect02">Подписаться на рекомендации по вакансиям</label>
+        <select class="form-select" id="inputGroupSelect03" name="subscribe">
+            <option selected>Choose...</option>
+            <option value="1">Да</option>
+            <option value="0">Нет</option>
+        </select>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon">Фраза рекомендаций</span>
+        <input type="text" class="form-control" value="{{student.code_word}}" placeholder="Программная инженерия" aria-label="Python-разработчик" aria-describedby="basic-addon2" name="code_word">
+    </div>
     <div class="input-group">
       <span class="input-group-text">Любая информация о ваших навыках и умения</span>
       <input class="form-control" aria-label="With textarea" value="{{student.ability}}" name="ability">

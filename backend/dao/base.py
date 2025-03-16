@@ -42,7 +42,12 @@ class BaseDAO:
     @classmethod
     async def find_objects(cls, field, text):
         async with async_session_maker() as session:
-            query = select(cls.model).filter(cls.model.post.ilike(f'%{text}%')).filter()
+            if field == 'post':
+                query = select(cls.model).filter(cls.model.post.ilike(f'%{text}%'))
+            elif field == 'description':
+                query = select(cls.model).filter(cls.model.description.ilike(f'%{text}%'))
+            elif field == 'level_skill':
+                query = select(cls.model).filter(cls.model.level_skill.ilike(f'%{text}%'))
             result = await session.execute(query)
             return result.scalars().all()
 

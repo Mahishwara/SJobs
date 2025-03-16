@@ -17,6 +17,11 @@ async def get_all_vacancies(request_body: RBVacancy = Depends()) -> list[SVacanc
     return await VacancyDAO.get_all_objects(**request_body.to_dict())
 
 
+@router.get("/recommended/", summary="Получить все вакансии")
+async def get_all_recommended_vacancies(code_word) -> list[SVacancy]:
+    return await VacancyDAO.get_recommended_objects(code_word)
+
+
 @router.get("/find/", summary="Получить все вакансии")
 async def find_vacancies(field, text) -> list[SVacancy]:
     return await VacancyDAO.find_objects(field, text)

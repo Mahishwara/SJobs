@@ -13,7 +13,7 @@ class SStudent(BaseModel):
     course:  int = Field(...,description='Номер курса')
     ability: str = Field(..., min_length=3, max_length=500, description="Описание умений, от 3 до 500 символов")
     subscribe: bool
-    code_word: str = Field(..., min_length=3, max_length=50, description='Фраза по которой будут отображаться новые рекомендованные вакансии')
+    code_word: str = Field(..., description='Фраза по которой будут отображаться новые рекомендованные вакансии')
 
 
 class SStudentAdd(BaseModel):
@@ -34,5 +34,5 @@ class SStudentUpd(BaseModel):
     course: int = Field(..., description='Номер курса')
     ability: str = Field(..., min_length=3, max_length=500, description="Описание умений, от 3 до 500 символов")
     subscribe: bool
-    code_word: str = Field(..., min_length=3, max_length=50,
+    code_word: str = Field(..., max_length=50,
                            description='Фраза по которой будут отображаться новые рекомендованные вакансии')

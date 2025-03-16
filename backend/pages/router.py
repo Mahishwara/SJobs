@@ -35,11 +35,11 @@ async def get_login_html(request: Request):
 @router.get('/profile')
 async def get_my_profile(request: Request, profile=Depends(get_me)):
     if profile.student_id is not None:
-        student = await fetch(f'http://127.0.0.1:8000/api/students/?id={profile.student_id}')
-        return templates.TemplateResponse(name='profile.html', context={'request': request, 'role': 1, 'student': student[0], 'profile': profile})
+        student = await fetch(f'http://127.0.0.1:8000/api/students/{profile.student_id}')
+        return templates.TemplateResponse(name='profile.html', context={'request': request, 'role': 1, 'student': student, 'profile': profile})
     if profile.employer_id is not None:
-        employer = await fetch(f'http://127.0.0.1:8000/api/employers/?id={profile.employer_id}')
-        return templates.TemplateResponse(name='profile.html', context={'request': request,'role': 2, 'employer': employer[0], 'profile': profile})
+        employer = await fetch(f'http://127.0.0.1:8000/api/employers/{profile.employer_id}')
+        return templates.TemplateResponse(name='profile.html', context={'request': request,'role': 2, 'employer': employer, 'profile': profile})
     return templates.TemplateResponse(name='profile.html', context={'request': request, 'role': 0})
 
 
@@ -97,12 +97,27 @@ async def get_create_vacancy_html(request: Request, user_data=Depends(get_me)):
 
 
 @router.get('/find_vacancies')
-async def get_find_vacancies_html(request: Request, ):
-    vacancies =  await fetch(f'http://127.0.0.1:8000/api/vacancies/?is_active=true')
+async def get_find_vacancies_html(request: Request, field, text):
+    vacancies =  await fetch(f'http://127.0.0.1:8000/api/vacancies/find/?field={field}&text={text}')
     levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
     for vacancy in vacancies:
         vacancy['level_skill'] = [level['level'] for level in levels if level['id'] == vacancy['level_skill']][0]
     return templates.TemplateResponse(name='findVacancy.html', context={'request': request, 'vacancies':vacancies})
+
+
+@router.get('/recommended_vacancies')
+async def get_recommended_vacancies_html(request: Request, user_data=Depends(get_me)):
+    vacancies = []
+    subscribe = False
+    if user_data.student_id:
+        student = await fetch(f'http://127.0.0.1:8000/api/students/{user_data.student_id}')
+        if student['subscribe']:
+            subscribe = True
+            vacancies =  await fetch(f'http://127.0.0.1:8000/api/vacancies/recommended/?code_word={student["code_word"]}')
+            levels = await fetch(f'http://127.0.0.1:8000/api/skills/')
+            for vacancy in vacancies:
+                vacancy['level_skill'] = [level['level'] for level in levels if level['id'] == vacancy['level_skill']][0]
+    return templates.TemplateResponse(name='recommendedVacancies.html', context={'request': request, 'vacancies': vacancies, "subscribe": subscribe})
 
 
 @router.get('/my_applications')

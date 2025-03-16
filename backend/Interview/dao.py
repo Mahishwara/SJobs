@@ -4,3 +4,5 @@ from backend.Interview.models import Interview
 
 class InterviewDAO(BaseDAO):
     model = Interview
+
+

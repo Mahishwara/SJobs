@@ -1,9 +1,6 @@
-from sqlalchemy import String, Integer, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from backend.Interview.models import Interview
+from sqlalchemy import String, Integer, ForeignKey, Boolean
+from sqlalchemy.orm import Mapped, mapped_column
 from backend.database import Base
-import backend
 
 
 class Student(Base):
@@ -18,7 +15,7 @@ class Student(Base):
     ability: Mapped[str] = mapped_column(String(500), nullable=False)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
     subscribe: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    code_word: Mapped[str] = mapped_column(String(50), nullable=False)
+    code_word: Mapped[str] = mapped_column(String(50), nullable=False, default='')
     extend_existing = True
 
     def __str__(self):
@@ -38,4 +35,4 @@ class Student(Base):
             'course': self.course,
             'ability': self.ability,
             'subscribe': self.subscribe,
-            'code_word': self.code_word,}
+            'code_word': self.code_word}
