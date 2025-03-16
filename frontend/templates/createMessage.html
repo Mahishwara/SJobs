@@ -8,17 +8,17 @@
         <input type="text" class="form-control" id="description" aria-describedby="basic-addon2" name="description">
         </div>
         <div class="d-grid gap-1 col-12 mx-auto" style="margin-top: 3px">
-            <button class="btn btn-primary" type="submit" onclick="postMessage(event, '{{id_from}}', '{{path}}', '{{id_to}}')">Отправить отзыв</button>
+            <button class="btn btn-primary" type="submit" onclick="postMessage(event, '{{id_from}}', '{{path}}', '{{id_to}}')">Отправить сообщение</button>
         </div>
         {% endif %}
         {% if path == '2' %}
-        <p class="text-center fs-1">Отправить сообщение студенту "{{student.post}}"</p>
+        <p class="text-center fs-1">Отправить сообщение студенту "{{student.fio}}"</p>
         <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon3">Сообщение</span>
         <input type="text" class="form-control" id="description" aria-describedby="basic-addon2" name="description">
         </div>
         <div class="d-grid gap-1 col-12 mx-auto" style="margin-top: 3px">
-            <button class="btn btn-primary" type="submit" onclick="postMessage(event, '{{id_to}}', '{{path}}', '{{id_from}}')">Отправить отзыв</button>
+            <button class="btn btn-primary" type="submit" onclick="postMessage(event, '{{id_to}}', '{{path}}', '{{id_from}}')">Отправить сообщение</button>
         </div>
         {% endif %}
 </form>

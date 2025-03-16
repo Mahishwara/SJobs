@@ -1,6 +1,7 @@
-from sqlalchemy import String, Integer, ForeignKey
+from sqlalchemy import String, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 from backend.database import Base
+from datetime import datetime
 
 
 class Message(Base):
@@ -11,6 +12,7 @@ class Message(Base):
     id_vacancy: Mapped[int] = mapped_column(ForeignKey('vacancies.id'), nullable=False)
     description: Mapped[str] = mapped_column(String(100), nullable=True)
     path_type: Mapped[int] = mapped_column(Integer, nullable=True)
+    date_publicated: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=datetime.now())
     extend_existing = True
 
     def __str__(self):

@@ -273,7 +273,7 @@ async function gopostFeedback(event, id_to, path){
 
 async function goeditFeedback(event, who, rate, desc, id){
     event.preventDefault();
-    let url = '/edit_feedback?who=' + who + '&rate=' + rate + '&desc=' + desc + '&id=' + id
+    let url = '/edit_feedback?who=' + who + '&rate=' + rate + '&desc=' + desc + '&id_feedback=' + id
     window.location.href = url
 }
 
@@ -284,9 +284,9 @@ async function goeditProfile(event){
 }
 
 
-async function goMessage(event, id_to, path){
+async function goMessage(event, id_to, id_from, path){
     event.preventDefault();
-    let url = '/post_message?id_to=' + id_to + '&path=' + path
+    let url = '/post_message?id_to=' + id_to + '&id_from=' + id_from + '&path=' + path
     window.location.href = url
 }
 

@@ -109,8 +109,9 @@ async def get_find_vacancies_html(request: Request, ):
 async def get_create_vacancy_html(request: Request, user_data=Depends(get_me)):
     applications = await fetch(f'http://127.0.0.1:8000/api/applications/?id_student={user_data.student_id}')
     for application in applications:
+        print(application)
         statuses = await fetch(f'http://127.0.0.1:8000/api/statuses/')
-        application['status'], application['status_desc'] = [(status['name'], status['description']) for status in statuses if status['id'] == application['id_status']][0]
+        application['status'], application['status_desc'] = [(status['name'], status['description']) for status in statuses if status['id'] == application["id_status"]][0]
         vacancies = await fetch(f'http://127.0.0.1:8000/api/vacancies/?id={application["id_vacancy"]}')
         for vacancy in vacancies:
             if vacancy['id'] == application['id_vacancy']:
@@ -141,6 +142,7 @@ async def get_vacancy_profile_html(request: Request, vacancy_id, user_data=Depen
     vacancy['level_skill'] = [level['level'] for level in levels if level['id'] == vacancy['level_skill']][0]
     employer = await fetch(f'http://127.0.0.1:8000/api/employers/{vacancy["id_employer"]}')
     vacancy['organization'] = employer['organization']
+    vacancy['employer'] = employer['name']
     feedbacks = await fetch(f'http://127.0.0.1:8000/api/feedbacks/?id_to={vacancy["id"]}&path=1')
     for feedback in feedbacks:
         student = await fetch(f'http://127.0.0.1:8000/api/students/{feedback["id_from"]}')
@@ -148,13 +150,39 @@ async def get_vacancy_profile_html(request: Request, vacancy_id, user_data=Depen
     return templates.TemplateResponse(name='profileVacancy.html', context={'request': request, 'vacancy': vacancy, 'feedbacks': feedbacks})
 
 
+@router.get('/student_profile')
+async def get_student_profile_html(request: Request, student_id):
+    student = await fetch(f'http://127.0.0.1:8000/api/students/{student_id}')
+    profile = await fetch(f'http://127.0.0.1:8000/api/auth/?student_id={student_id}')
+    feedbacks = await fetch(f'http://127.0.0.1:8000/api/feedbacks/?id_to={student_id}&path=2')
+    for feedback in feedbacks:
+        employer = await fetch(f'http://127.0.0.1:8000/api/employers/{feedback["id_from"]}')
+        feedback['employer'] = employer['name']
+    return templates.TemplateResponse(name='profileStudent.html', context={'request': request, 'student': student, 'feedbacks': feedbacks, 'profile': profile[0]})
+
+
+@router.get('/employer_profile')
+async def get_student_profile_html(request: Request, employer_id):
+    employer = await fetch(f'http://127.0.0.1:8000/api/employers/{employer_id}')
+    profile = await fetch(f'http://127.0.0.1:8000/api/auth/?employer_id={employer_id}')
+    feedbacks = await fetch(f'http://127.0.0.1:8000/api/feedbacks/?id_to={employer_id}&path=0')
+    for feedback in feedbacks:
+        student = await fetch(f'http://127.0.0.1:8000/api/students/{feedback["id_from"]}')
+        feedback['student'] = student['fio']
+    return templates.TemplateResponse(name='profileEmployer.html', context={'request': request, 'employer': employer, 'feedbacks': feedbacks, 'profile': profile[0]})
+
+
 @router.get('/create_feedback')
 async def get_create_feedback_html(request: Request, id_to, path, user_data=Depends(get_me)):
-    if user_data.student_id:
+    can_post = False
+    id_from = ''
+    if user_data.student_id and (path == '1' or path == '0'):
         id_from = user_data.student_id
-    else:
-        id_from = user_data.emploer_id
-    return templates.TemplateResponse(name='createFeedback.html', context={'request': request, "id_to": id_to, 'id_from': id_from, 'path': path})
+        can_post = True
+    elif user_data.employer_id and (path == '2'):
+        id_from = user_data.employer_id
+        can_post = True
+    return templates.TemplateResponse(name='createFeedback.html', context={'request': request, "id_to": id_to, 'id_from': id_from, 'path': path, 'can_post': can_post})
 
 
 @router.get('/my_feedbacks')
@@ -169,13 +197,12 @@ async def get_my_feedbacks_html(request: Request, user_data=Depends(get_me)):
                 employer = await fetch(f'http://127.0.0.1:8000/api/employers/{feedback["id_to"]}')
                 feedback['employer'] = employer['name']
                 type0.append(feedback)
-            else:
+            elif feedback['path'] == 1:
                 vacancy = await fetch(f'http://127.0.0.1:8000/api/vacancies/{feedback["id_to"]}')
                 feedback['vacancy'] = vacancy['post']
                 type1.append(feedback)
     else:
         feedbacks = await fetch(f'http://127.0.0.1:8000/api/feedbacks/?id_from={user_data.employer_id}&path=2')
-        print(feedbacks)
         for feedback in feedbacks:
             student = await fetch(f'http://127.0.0.1:8000/api/students/{feedback["id_to"]}')
             feedback['student'] = student['fio']
@@ -219,16 +246,17 @@ async def get_edit_profile_html(request: Request, user_data=Depends(get_me)):
 
 
 @router.get('/post_message')
-async def get_post_message_html(request: Request, id_to, path, user_data=Depends(get_me)):
+async def get_post_message_html(request: Request, id_to, id_from, path, user_data=Depends(get_me)):
     if user_data.student_id:
+        id_from = user_data.student_id
         vacancy = await fetch(f'http://127.0.0.1:8000/api/vacancies/{id_to}')
         return templates.TemplateResponse(name='createMessage.html',
-                                          context={'request': request, 'id_to': id_to, 'path': path, 'id_from': user_data.student_id, 'vacancy': vacancy})
+                                          context={'request': request, 'id_to': id_to, 'path': path, 'id_from': id_from, 'vacancy': vacancy})
     else:
         student = await fetch(f'http://127.0.0.1:8000/api/students/{id_to}')
         return templates.TemplateResponse(name='createMessage.html',
                                           context={'request': request, 'id_to': id_to, 'path': path,
-                                                   'id_from': user_data.employer_id,'student': student})
+                                                   'id_from': id_from,'student': student})
 
 
 @router.get('/feedbacks_vacancy')
@@ -239,3 +267,24 @@ async def get_feedbacks_vacancy_html(request: Request, id):
         feedback['student'] = student['fio']
     return templates.TemplateResponse(name='feedback_vacancies.html',
                                       context={'request': request, "feedbacks": feedbacks})
+
+
+@router.get('/messages_vacancy')
+async def get_messages_vacancy_html(request: Request, id):
+    messages = await fetch(f'http://127.0.0.1:8000/api/messages/ordered/?id_vacancy={id}&path_type=1')
+    vacancy = await fetch(f'http://127.0.0.1:8000/api/vacancies/{id}')
+    for message in messages:
+        student = await fetch(f'http://127.0.0.1:8000/api/students/{message["id_student"]}')
+        message['student'] = student['fio']
+    return templates.TemplateResponse(name='message.html',
+                                      context={'request': request, 'messages': messages, 'vacancy': vacancy})
+
+
+@router.get('/messages_from_vacancy')
+async def get_messages_from_vacancy_html(request: Request, id, user_data=Depends(get_me)):
+    messages = await fetch(f'http://127.0.0.1:8000/api/messages/ordered/?id_student={user_data.student_id}&id_vacancy={id}&path_type=2')
+    vacancy = await fetch(f'http://127.0.0.1:8000/api/vacancies/{id}')
+    return templates.TemplateResponse(name='messageFromVacancy.html',
+                                      context={'request': request, 'messages': messages, 'vacancy': vacancy, 'id_student': user_data.student_id})
+
+

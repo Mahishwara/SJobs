@@ -37,11 +37,16 @@
                           <h6>Оплата</h6>
                           <p class="text-muted">{{vacancy.salary}} тысяч рублей</p>
                         </div>
+                        <div class="col-6 mb-3">
+                          <h6>Руководитель</h6>
+                          <p class="text-muted"><a href="/employer_profile?employer_id={{vacancy.id_employer}}">{{vacancy.employer}}</a></p>
+                        </div>
                       </div>
                       <div class="btn-group_vertical text-center" role="group">
                         <button type="button" class="btn btn-primary" onclick="postApplication(event, '{{vacancy.id}}')">Подать заявку</button>
                         <button type="button" class="btn btn-primary" onclick="gopostFeedback(event, '{{vacancy.id}}', 1)">Оставить отзыв</button>
-                        <button type="button" class="btn btn-primary" onclick="goMessage(event, '{{vacancy.id}}', 1)">Написать сообщение</button>
+                        <button type="button" class="btn btn-primary" onclick="goMessage(event, '{{vacancy.id}}', '0', 1)">Написать сообщение</button>
+                          <a type="button" class="btn btn-primary" href="/messages_from_vacancy?id={{vacancy.id}}">Посмотреть ответы на сообщения</a>
                       </div>
                     </div>
                   </div>
@@ -56,7 +61,7 @@
     {% for feedback in feedbacks %}
     <div class="card" style="width: 21rem;">
     <div class="card-body">
-        <h5 class="card-title">Студент: {{feedback.student}}</h5>
+        <h5 class="card-title">Студент: <a href="/student_profile?student_id={{feedback.id_from}}">{{feedback.student}}</a></h5>
         <p class="card-text"> Рейтинг: {{feedback.rate}}/10</p>
         <p class="card-text"> Описание: {{feedback.description}}</p>
     </div>

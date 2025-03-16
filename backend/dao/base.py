@@ -8,6 +8,7 @@ class BaseDAO:
     """Класс для работы с объектами БД."""
     model = None
 
+
     @classmethod
     async def get_all_objects(cls, **kwargs):
         """Возвращает все объекты модели."""
@@ -16,13 +17,18 @@ class BaseDAO:
             result = await session.execute(query)
             return result.scalars().all()
 
+
     @classmethod
-    async def get_all_objects_order_by(cls, **kwargs):
+    async def get_all_objects_order_by(cls, name_model, **kwargs):
         """Возвращает все объекты модели."""
         async with async_session_maker() as session:
-            query = select(cls.model).filter_by(**kwargs).order_by(cls.model.date_start, cls.model.time_start)
+            if name_model == 'interview':
+                query = select(cls.model).filter_by(**kwargs).order_by(cls.model.date_start, cls.model.time_start)
+            else:
+                query = select(cls.model).filter_by(**kwargs).order_by(cls.model.date_publicated.desc())
             result = await session.execute(query)
             return result.scalars().all()
+
 
     @classmethod
     async def get_object(cls, **kwargs):
@@ -39,6 +45,7 @@ class BaseDAO:
             query = select(cls.model).filter(cls.model.post.ilike(f'%{text}%')).filter()
             result = await session.execute(query)
             return result.scalars().all()
+
 
     @classmethod
     async def add(cls, **values):

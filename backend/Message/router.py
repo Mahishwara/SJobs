@@ -26,6 +26,11 @@ async def get_message_by_id(message_id: int) -> SMessage | dict:
     return res
 
 
+@router.get("/ordered/", summary="Получить все сообщения упорядоченные по новизне")
+async def get_all_interviews(request_body: RBMessage = Depends()) -> list[SMessage]:
+    return await MessageDAO.get_all_objects_order_by('message', **request_body.to_dict())
+
+
 @router.post("/add/", summary='Добавить новое сообщение')
 async def register_message(message: SMessageAdd) -> dict:
     check = await MessageDAO.add(**message.dict())

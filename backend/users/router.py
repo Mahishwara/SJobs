@@ -4,7 +4,8 @@ from backend.users.auth import get_password_hash, authenticate_user, create_acce
 from backend.users.dao import UsersDAO
 from backend.users.dependencies import get_current_user, get_current_admin_user
 from backend.users.models import User
-from backend.users.schemas import SUserRegister, SUserAuth
+from backend.users.schemas import SUserRegister, SUserAuth, SUser
+from backend.users.rb import RBUser
 
 router = APIRouter(prefix='/api/auth', tags=['Пользователь'])
 
@@ -45,6 +46,10 @@ async def get_me(user_data: User = Depends(get_current_user)):
 async def get_all_users():
     return await UsersDAO.get_all_objects()
 
+
+@router.get("/")
+async def get_users(request_body: RBUser = Depends()) -> list[SUser]:
+    return await UsersDAO.get_all_objects(**request_body.to_dict())
 
 @router.get("/me/update")
 async def update_user(new_data, user_id):

@@ -35,6 +35,7 @@
                         </div>
                         <div class="btn-group_vertical text-center" role="group">
                         <a type="button" class="btn btn-primary" href="/feedbacks_vacancy?id={{vacancy.id}}">Посмотреть отзывы</a>
+                            <a type="button" class="btn btn-primary" href="/messages_vacancy?id={{vacancy.id}}">Посмотреть сообщения</a>
                       </div>
                       </div>
                     </div>
@@ -50,7 +51,7 @@
     {% for application in applications %}
     <div class="card" style="width: 21rem;">
     <div class="card-body">
-        <h5 class="card-title">{{application.student}}</h5>
+        <h5 class="card-title"><a href="/student_profile?student_id={{application.id_student}}">{{application.student}}</a></h5>
         <p class="card-text"> Уровень навыков: {{application.level}}</p>
         <p class="card-text"> Курс обучения: {{application.course}}</p>
         <p class="card-text"> Специальность обучения: {{application.speciality}}</p>

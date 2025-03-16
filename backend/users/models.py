@@ -17,3 +17,8 @@ class User(Base):
 
     def __repr__(self):
         return f"{self.__class__.__name__}(id={self.id})"
+
+    def to_dict(self):
+        return {
+            'phone_number': self.phone_number,
+            'email': self.email}
