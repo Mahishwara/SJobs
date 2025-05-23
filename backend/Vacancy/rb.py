@@ -10,6 +10,7 @@ class RBVacancy():
                  date_end: date | None = None,
                  level_skill: int | None = None,
                  salary: str | None = None,
+                 id_employer: int | None = None,
                  is_active: bool | None = None):
         self.id = id
         self.name = name

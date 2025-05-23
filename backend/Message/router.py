@@ -27,7 +27,7 @@ async def get_message_by_id(message_id: int) -> SMessage | dict:
 
 
 @router.get("/ordered/", summary="Получить все сообщения упорядоченные по новизне")
-async def get_all_interviews(request_body: RBMessage = Depends()) -> list[SMessage]:
+async def get_all_ordered_messages(request_body: RBMessage = Depends()) -> list[SMessage]:
     return await MessageDAO.get_all_objects_order_by('message', **request_body.to_dict())
 
 

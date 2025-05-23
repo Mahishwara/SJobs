@@ -46,9 +46,12 @@ async def register_vacancy(vacancy: SVacancyAdd) -> dict:
 @router.put("/update/{vacancy_id}", summary='Изменить вакансию по ID')
 async def update_vacancy(vacancy_id, vacancy: SVacancyUpd) -> dict:
     check = await VacancyDAO.update(filter_by={'id': vacancy_id},
-                                   name=vacancy.name, description=vacancy.description,
+                                   post=vacancy.post, description=vacancy.description,
                                     level_skill=vacancy.level_skill,
-                                    salary=vacancy.salary)
+                                    salary=vacancy.salary,
+                                    date_begin=vacancy.date_begin,
+                                    date_end=vacancy.date_end
+                                    )
     if check:
         return {"message": "Вакансия успешно обновлена!", "vacancy": vacancy}
     else:

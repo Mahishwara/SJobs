@@ -21,12 +21,12 @@ class Vacancy(Base):
 
     def __str__(self):
         return (f"{self.__class__.__name__}(id={self.id},"
-                f"name={self.name},"
+                f"post={self.post},"
                 f"description={self.description},"
                 f"publication_date={self.publication_date},"
                 f"level_skill={self.level_skill}"
                 f"salary={self.salary},"
-                f"id_employer={self.id_employer}),"
+                f"id_employer={self.id_employer},"
                 f"is_active={self.is_active})")
 
     def __repr__(self):

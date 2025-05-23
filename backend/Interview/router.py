@@ -19,7 +19,7 @@ async def get_all_interviews(request_body: RBInterview = Depends()) -> list[SInt
 
 
 @router.get("/ordered", summary="Получить все собеседования")
-async def get_all_interviews(request_body: RBInterview = Depends()) -> list[SInterview]:
+async def get_all_ordered_interviews(request_body: RBInterview = Depends()) -> list[SInterview]:
     return await InterviewDAO.get_all_objects_order_by('interview', **request_body.to_dict())
 
 

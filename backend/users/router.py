@@ -2,10 +2,11 @@ from fastapi import APIRouter, Response, Depends
 from backend.exceptions import UserAlreadyExistsException, IncorrectEmailOrPasswordException
 from backend.users.auth import get_password_hash, authenticate_user, create_access_token
 from backend.users.dao import UsersDAO
-from backend.users.dependencies import get_current_user, get_current_admin_user
+from backend.users.dependencies import  get_current_admin_user, get_current_user
 from backend.users.models import User
-from backend.users.schemas import SUserRegister, SUserAuth, SUser
-from backend.users.rb import RBUser
+from backend.users.schemas import SUserRegister, SUserAuth, SUser, SToken
+from backend.users.rb import RBUser, RBToken
+from fastapi import Request
 
 router = APIRouter(prefix='/api/auth', tags=['Пользователь'])
 
@@ -38,13 +39,17 @@ async def logout_user(response: Response):
 
 
 @router.get("/me/")
-async def get_me(user_data: User = Depends(get_current_user)):
+async def get_me(request_body: RBToken = Depends()):
+    print(request_body)
+    request_body = request_body.to_dict()
+    print(request_body)
+    user_data = await get_current_user(request_body['token'])
     return user_data
 
 
 @router.get("/all_users/")
-async def get_all_users():
-    return await UsersDAO.get_all_objects()
+async def get_all_users(request_body: RBUser = Depends()):
+    return await UsersDAO.get_all_objects(**request_body.to_dict())
 
 
 @router.get("/")

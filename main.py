@@ -1,8 +1,9 @@
 import uvicorn
 from fastapi import FastAPI, Request
+from fastapi_cors import CORS
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from backend.users.router import router as router_user
 from backend.Student.router import router as router_student
 from backend.Status.router import router as router_status
@@ -13,15 +14,21 @@ from backend.Employer.router import router as router_employer
 from backend.Feedback.router import router as router_feedback
 from backend.Interview.router import router as router_interview
 from backend.Application.router import router as router_application
-from backend.pages.router import router as router_pages
 
-
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:5173",
+]
 app = FastAPI()
 app.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["*"]
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]      # Разрешенные заголовки
 )
-
-app.mount('/static/docs', StaticFiles(directory='frontend/static'), 'static')
 
 app.include_router(router_user)
 app.include_router(router_student)
@@ -34,4 +41,9 @@ app.include_router(router_employer)
 app.include_router(router_feedback)
 app.include_router(router_interview)
 app.include_router(router_application)
-app.include_router(router_pages)
+
+
+def main():
+    uvicorn.run(app)
+if __name__ == "__main__":
+    main()

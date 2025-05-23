@@ -30,4 +30,5 @@ async def authenticate_user(email: EmailStr, password: str):
     user = await UsersDAO.get_object(email=email)
     if not user or verify_password(plain_password=password, hashed_password=user.password) is False:
         return None
+    print(user)
     return user
